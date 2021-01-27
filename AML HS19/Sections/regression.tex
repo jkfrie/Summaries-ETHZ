@@ -1,0 +1,61 @@
+\section{Regression}
+Optimal solution of regression problem: $argmin_f \quad \mathbb{E}(Y - f(X))^2$\\
+{\centering{$f^*(x) = \mathbb{E}(Y|X=x)$}\par }
+
+
+\begin{itemize}
+    \item[-]Maximum likelihood: maximize probability of data as sampled.
+    \item[-]Statistical learning theory: Minimize directly empirical risk.
+    \item[$\rightarrow$] both approaches lead to same solution.
+\end{itemize}{}
+
+\subsection{Linear Regression}
+\begin{equation}
+    Y = \beta_0 + \sum^d_{j=1}X_j\beta_j 
+\end{equation}{} 
+$\beta_0$ is called bias
+
+\paragraph{Residual Sum of Squares (RSS)}
+\begin{equation}
+  RSS(\beta) = \sum^n_{i=1}(y_i - x_i^T \beta)^2
+\end{equation}{}
+{ \centering For given data minimize the RSS \par }
+
+\paragraph{Optimality of Least Squares Estimate: }
+The least squares estimate of the parameter $\beta$ has the smallest variance among all linear unbiased estimates.
+
+\paragraph{Gauss Markov Theorem: }
+For any linear estimator $\theta = c^Ty$ , that is unbiased for $a^T\beta$, it holds that variance is not smaller then the one of least squares estimate:
+\begin{equation}
+    \mathbb{V}(a^T\hat{\beta})\quad \leq \quad \mathbb{V}(c^Ty)
+\end{equation}{}
+\begin{itemize}
+    \item[-]Overfitting can be a problem!
+    \item[-]Bias-variance trade off:\\
+    mean squared error = $bias^2$ + variance + noise variance
+    \item[$\rightarrow$] Hence $\hat{f}(x)$ is best among all unbiased linear models in the sense of minimizing the MSE. But Goal is to minimize generalization error.
+    \item[-]Option: trade bias increase for variance reduction.
+    \item[-]Goal: Minimize bias and variance simultaneously.
+\end{itemize}{}
+
+\paragraph{Bias vs. Variance}
+\begin{itemize}
+    \item[-]\textbf{bias: } high-bias learns fast but is less flexible, more assumptions on data.
+    \item[-]\textbf{variance: }high variance means for different data estimator would change a lot.
+    \item[-]overfitting: low bias, high variance (small data set, large model complexity)\\
+    $\rightarrow$ add Regularization, cross validation, ensembles of classifiers
+    \item[-]underfitting: high bias, low variance (large data set, small model complexity)
+\end{itemize}{}
+
+\subsection{Regularized Linear Regression:} 
+Regularization = Bayesian Maximum A Posteriori (MAP) estimates.
+\begin{itemize}
+    \item Ridge Regression: add $\lambda \beta^T \beta$ to the squared loss. Suppression of contributions by small eigenvalues $\rightarrow$ built in model selection.
+    \item Lasso: add $\lambda ||\beta^T||_1$ to the squared loss. In addition to ridge some coefficiants are sparse (Least Absolute Shrinkage and Selection Operator).
+\end{itemize}{}
+
+\subsection{Nonlinear Regression}
+\paragraph{Basis Expansion: }
+Transform the variables X nonlinearly and fit a linear model in the resulting feature space. (e.g. take cubix splines of X).
+
+\paragraph{Regression with Wavelets: }

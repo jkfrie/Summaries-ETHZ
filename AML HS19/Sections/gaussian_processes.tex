@@ -1,0 +1,24 @@
+\section{Gaussian Processes for Regression}
+
+\paragraph{Bayesian Linear Regression: }
+extends multiple linear regression by defining a prior over the regression coefficients, for example ridge regression. Given observed data we can now use Bayes theorem to obtain the posterior distribution over coefficients.
+
+\paragraph{From Bayesian linear regression to Gaussian processes}
+Since the outputs y are a linear combination of normally distributed random
+variables $\beta$, they are jointly Gaussian themselves.
+
+\paragraph{Gaussian processes}
+use Covariance matrix as kernel. The kernel function on the previous slide expresses that the outputs of two points whose inputs are ‘similar’ to each other have a high covariance. By contrast, the outputs of points with “dissimilar” inputs have a low covariance. The level set of the joint distribution yields an axis aligned ellipse. Kernel functions specify the degree of similarity between any two data points.
+
+\paragraph{Recall: kernel properties}
+\begin{itemize}
+    \item[-]Symmetry $k(x,x') = k(x',x)$
+    \item[-]Positive semi-definiteness (continuous case). Kernel matrix K must be positive semidefinite. $x^TKx >= 0$ for all x.
+\end{itemize}{}
+
+Different kernels have different invariance properties e.g. invariant to rotation, translation.
+
+\paragraph{Kernel engineering}
+
+\paragraph{Ensembles}
+Average models with different parameters. Unbiased estimators remain ubiased after averaging. But we can reduce variance by a factor of B (nr. of models).

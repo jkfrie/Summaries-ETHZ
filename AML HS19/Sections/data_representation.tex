@@ -1,0 +1,47 @@
+\section{Representations} \title{Measurements and Data Patterns, Data Types, Transformations, Scale}\\
+\\
+\textbf{Loss: }$Q(y, f(x))$ (0-1 loss, quadratic loss,...)\\
+\textbf{Conditional Expected Risk: }$R(f,X) = \int_{y}^{} Q(Y,f(x))P(Y|X)dY$ (r. var X)\\
+\textbf{Total Expected Risk: }$R(f)= \int_{X}^{} R(f,X)P(X)dX$ (r. var X,Y)\\
+\textbf{Empirical Test Error: }$\hat{R}(\hat{f},Z^{train}) = 1/n$ $\sum_{i=0}^{n}Q(Y_{i},\hat{f}(X_{i}))$ (tries \rightarrow Exp. Risk)\\
+\textbf{Expected Risk: }$E_{X}[R(\hat{f},X)]$
+
+\begin{itemize}
+    \item\textbf{Taxonomy of Data: }
+    \begin{itemize}
+        \item[-]\textbf{Pattern analysis: }Requires to find structure in sets of object representations.
+        \item[-]\textbf{Object space: }We are given a design/configuration/object space $O$!
+        \item[-]\textbf{Measurement: }Given an object set, am measurement $X$ maps an object set into a domain $K$.
+        e.g. objects $\rightarrow$ feature vectors.
+    \end{itemize}{}
+    \item\textbf{Examples of Data: }
+    \begin{itemize}
+        \item[-]\textbf{Monadic Data: }$X:O \rightarrow \mathbb{R}^d, \quad o \rightarrow X_{0}$\\
+        characterize configuration or objects without reference to other configurations. (temperature, depth,...)
+        \item[-]\textbf{Dyadic Data: }$X:O^{(1)} \times O^{(2)} \rightarrow \mathbb{R}, \quad (o_1,o_2) \rightarrow X_{o1,o2}$\\
+        \{users\} X \{websites\}
+        \item[-]\textbf{Pairwise Data: }$O \times O \rightarrow \mathbb{R}, \quad (o_1,o_2) \rightarrow X_{o1,o2}$
+        Similar to dyadic but of same kind: \{proteins\} X \{proteins\}
+        \item[-]\textbf{Polyadic Data: }$O^{(1)} \times O^{(2)} \times O^{(3)} \rightarrow \mathbb{R}, \quad (o_1,o_2,o_3) \rightarrow X_{o1,o2,o3}$\\
+        \{test persons\} X \{behaviors\} X \{traits\}
+    \end{itemize}{}
+    \item\textbf{Scales: }
+    \begin{itemize}
+        \item[-]\textbf{Nominal or Cateforical scale: }Qualitative but not quantitative measurements, choice of categories.
+        \item[-]\textbf{Ordinal scale: }measurement values are meaningful only with respect to others (e.g. ranking)
+        \item[-]\textbf{Quantitative scale: }
+        \begin{itemize}
+            \item Interval scale: the relation of numerical differences carries the information (Celsius scale).
+            \item Ratio scale: zero value of the scale carries info but nor the measurment unit (Kelvin scale).
+            \item Absolute scale: Absolute values are meaningful (school grades).
+        \end{itemize}{}
+        \textbf{\danger \quad Data Whitening: }Normalize the values of a feature vector by the standard deviation. Thereby differences in dynamic range are eliminated.
+    \end{itemize}{}
+    \item\textbf{Mathematical Spaces: }
+    \begin{itemize}
+        \item[-]Topological spaces:
+        \item[-]Metric Space:
+        \item[-]Euclidean Vector space:
+    \end{itemize}{}
+    \item\textbf{Probability Spaces: }TODO
+\end{itemize}{}

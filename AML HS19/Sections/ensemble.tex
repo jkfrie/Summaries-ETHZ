@@ -1,0 +1,54 @@
+\section{Ensemble Methods for Classifier Design}
+
+\paragraph{Idea: }
+An Approach to ML based on the idea of creating a highly accurate prediction rule by combinig many relatively weak and inaccurate rules. Train several sufficiently diverse predictors and use an aggregation scheme to produce a valid solution with low bias and variance.
+
+\begin{itemize}
+    \item \textbf{Bagging: }or bootstrap aggregation combines several classifiers which have been trained on random subsamples (with replacement) of the data. 
+    \item \textbf{Arcing: } or adaptive reweighting and combining is an extension of bagging.
+    \item \textbf{Boosting: } in form of AdaBoost is an ensemble method with error sensitive reweighting of the classifiers
+\end{itemize}{}
+
+\paragraph{Weak Learners Used for Bagging or Boosting: }
+\begin{itemize}
+    \item Stumps: Single axis parallel partition of space
+    \item Decision Trees: Hierarchical partition of space
+    \item MLP: General non-linear function approx
+    \item Radial basis functions: Non linear expansions based on kernels
+\end{itemize}{}
+
+\paragraph{Combining Classifiers}
+\begin{itemize}
+    \item Input: a pool of binary classifiers.
+    \item Objective: Infer a composite classifer with weights $\alpha_b$
+    \item Need diversity in classifers: use different subsets of data and different features. Decorrelate classifers during training.
+\end{itemize}{}
+
+\paragraph{Bagging}
+Generate diversity in classifier pool by training on different, e.g. bootstrapped subsets. Classifier selection: first compare, then bag.
+
+\paragraph{Random Forests}
+\begin{itemize}
+    \item Strategy for bagging trees: 
+\end{itemize}{}
+
+\paragraph{Boosting}
+\begin{itemize}
+    \item Idea: An adaptive combination of poor learners with sufficient diversity leads to an excellent classifier.
+    \item Base class of simple classifiers (e.g. perceptrons, decision stump, axis parallel splits)
+    \item Train a sequence of simple classifiers on modified data distributions, and form a weighted average.
+\end{itemize}{}
+
+\paragraph{Data Reweighting}
+Apply weight to each of the training data at the b-th boosting step.
+
+\paragraph{AdaBoost}
+Train each classifier on random subset of data and then reduce the weights on current subset of data and increase the weights on rest of data, then train next classifier.
+
+\paragraph{Loss functions for classification}
+\begin{itemize}
+    \item exponential loss
+    \item Binominal Deviance
+\end{itemize}{}
+
+\paragraph{Theorem: }The Discrete AdaBoost algorithm builds an additive logistic regression model via Newton-like updates for minimizing exponential loss.

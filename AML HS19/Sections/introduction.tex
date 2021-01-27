@@ -1,0 +1,44 @@
+\section{Introduction}
+\textbf{The Learning Problem of Pattern Recognition}
+\begin{itemize}
+    \item[-]Representation of Objects: Data Representation.
+    \item[-]Definition/Modeling of structure: What is a pattern?
+    \item[-]Optimization: Search for preferred structures.
+    \item[-]Validation: are the structures indeed in the data or are they explained by fluctuations?
+\end{itemize}{}
+\\
+\textbf{Feature Space}
+\begin{itemize}
+    \item[-]Measurement space X: mathematical space in which data is represented (e.g. numerical R, Boolean, Categorical)
+    \item[-]Features: derived quantities (edges, corners, motion vectors,...)
+    \item[]Remark: The selection of a specific feature space predetermines the metric to compare data.
+\end{itemize}
+\\
+\textbf{Typical learning problems}
+\begin{itemize}
+    \item[-]Classification: learning an indicator function.
+    \item[-]Regression: learning a real valued function.
+    \item[-]Density estimation: learning a probability density of the data source.
+    \item[-]Dimension reduction: learning a linear or nonlinear projection.
+    \item[-]Data compression: learning a coding efficient representation.
+\end{itemize}{}
+\\
+\textbf{Key Concepts of Machine Learning:}
+\begin{itemize}
+    \item[-]Trade off training error vs. model complexity
+    \begin{itemize}
+        \item[-]Regularizers prevent overfitting.
+        \item[-]Hyper parameter/model selection via cross-validation.
+    \end{itemize}{}
+    \item[-]Corresponodence prob. modeling: Loss = Likelihood, regularizer = prior
+    \item[-]Kernel trick: replace inner products by kernel function.
+    \item[-]Neural nets for feature learning.
+    \item[-]Discriminative vs. generative models
+    \begin{itemize}
+        \item[$\rightarrow$]Discrim.: Learn function $f: X \rightarrow Y$
+        \item[$\rightarrow$]Genr.: Learn joint distribution $P(X=x, Y=y)$
+    \end{itemize}{}
+    \item[-]Unsupervised learning as latent variable modeling (clustering = classification, dim. Reduction = regression)
+    $\rightarrow$ Training by EM algorithm.
+\end{itemize}{}
+\\

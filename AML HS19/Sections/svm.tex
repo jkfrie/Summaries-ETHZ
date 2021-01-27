@@ -1,0 +1,118 @@
+\section{Support Vector Machines (SVM)}
+\paragraph{Idea: }Generalize perceptrons with maximized margin and  a kernel.
+
+\paragraph{Agenda:}
+\begin{itemize}
+    \item Optimization with constraints
+    \item Hard-margin SVM's
+    \item Soft-margin SVM's
+\end{itemize}{}
+
+\subsection{Lagrange multipliers}
+Assume that $f$ and $g_i$ are continuously differentiable.
+find: $min$ $f(w)$, $w\in\mathbb{R}^d$ s.t. $g_i(w) = 0$, $i<=m$
+\begin{enumerate}
+    \item Compute Lagrangian: $L(w,\lambda) = f(w) + \sum_{i<=m}\lambda_ig_i(W)$.
+    \item An optimal solution must satisfy $\nabla$L = 0.
+\end{enumerate}{}
+
+\paragraph{Lagrange multipliers 2}
+Assume that $f$ and $g_i$ are continuously differentiable.
+find: $min$ $f(w)$, $w\in\mathbb{R}^d$ s.t. $g_i(w) = 0$, $i <= m$ and $h_j(w) <= 0$, $j <= m$
+\begin{enumerate}
+    \item Compute Lagrangian: $L(w,\lambda,\alpha) = f(w) + \sum_{i<=m}\lambda_ig_i(W) + \sum_{j<=n}\alpha_jh_j(w)$, with $\alpha_j >=0$.
+    \item An optimal solution must satisfy L differentiated to w = 0 and diff to $\lambda$. $\alpha_jh_j(w) = 0$ and $\alpha_j >=0 $
+\end{enumerate}{}
+
+\paragraph{The dual problem}
+TODO
+
+\paragraph{Slaters condition}
+TODO\\
+SVM's fulfill Slaters condition, therefore strong duality holds for that problem.
+
+\paragraph{Complementary slackness}
+TODO
+
+\paragraph{Karush Kuhn Tucker conditions: necessary conditions for an optimal solution}
+TODO\\
+If $f$ is convex, $h_j$ is convex and $g_i$ is affine, then any tuple $w*,\lambda*,\alpha*$ that meets the KKT conditions yields an optimal solution with strong duality.
+
+\paragraph{Maximal Margin Classifier}
+\begin{equation}
+    2 x margin = w^T/||w|| (y^+ - y^-)
+\end{equation}{}
+
+\paragraph{Invariance of Maximal Margin Classifier}
+Problem: scaling of the margin is compensated by scaling the $||w||$\\
+Two equivalent solutions for well-posedness:
+\begin{enumerate}
+    \item geometric margin problem: maximize m for $||w|| = 1$.
+    \item functional margin problem: minimize $||w||$ for m = 1.
+\end{enumerate}{}
+
+\subsection{Non-seperable case: Soft Margin SVM}
+How to treat samples that violate the constraint? Introduce Slack variables
+
+\paragraph{Slack variables:}
+relax the margin constraints for the samples that violate the constraints.
+The invariance under rescaling still holds.
+
+\paragraph{Linear Programming SVM}
+\begin{itemize}
+    \item[+] efficient LP solver can be used.
+    \item[-] theory is not as well understood as for standard SVMs
+\end{itemize}{}
+
+\subsection{Non-Linear SVMs}
+Feature extraction by non linear transformation $y = \phi(x)$.
+Problem: for very high dim spaces the non linear transformation might be computationally too difficult to compute when we only require the inner prod.
+
+\paragraph{Kernel Function}
+$K(x, z) = \phi^T(x)\phi(z)$\\
+\begin{enumerate}
+    \item Symmetric
+    \item Kernel matrix has to be positive semi-definite.
+    \item Merce's Theorem
+    \item Kernel engineering (slides)
+\end{enumerate}{}
+
+\paragraph{SVM's for Secondary Structure Prediction}
+
+\subsection{Structural SVMs}
+\begin{itemize}
+    \item Multiclass SVM's
+    \item Structured SVM's: Each sample y is assigned to a structured output label, e.g. partitions, trees, lists
+\end{itemize}{}
+
+\paragraph{Multiclass SVMs}
+The notion of the margin must be generalized to multi-class problems: For every class z, we introduce a weight vector $w_z$ and define the margin as the maximum m s.t. $(w_z_i^Ty_i + w_{z_i, 0}) - max_{Z!=z_i}(w_z_i^Ty_i + w_{z_i, 0})$\\
+\\
+Similar to before we can define an optimization problem to learn hard functinoal margin multiclass SVMs. For non-seperable SVMs we can again introduce slacks.
+
+\paragraph{Structural SVMs}
+E.g. A parser takes as input a natural language sentence. The task is to predict a parse tree decomposing the sentence into its constituents (nr of possible parse trees is tremendous).\\
+\\
+SSVMs Kex Problems:
+\begin{enumerate}
+    \item Compact representation of the output space
+    \item Efficient prediction
+    \item Prediction error
+    \item Efficient training
+\end{enumerate}{}
+
+SSVMs could be formulated as multiclass SVMs (one weight vector per class),
+however this would lead to a blow-up of the overall number of parameters. Key ideas to overcome this:
+\begin{enumerate}
+    \item Define a joint feature map that combines properties of inputs and outputs.
+    \item Define a scoring function.
+    \item Perform classification via these two functions.
+    \item Define the margin as seen in slides.
+\end{enumerate}{}
+
+For efficient classification there must be some kind of structural matching between the compositional structure of the outputs z and the designed joint feature map, e.g:
+\begin{itemize}
+    \item Decomposable output spaces: into non-overlapping independent parts, then maximization is performed partwise.
+    \item Specific dependency structures: 
+\end{itemize}{}
+

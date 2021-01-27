@@ -1,0 +1,69 @@
+\section{Numerical Estimation Techniques}
+
+\begin{itemize}
+    \item[a.]Cross-Validation:
+    \item[b.]Bootstrap:
+    \item[c.]Jackknife: Method to compensate for systematic estimation errors (bias reduction)
+\end{itemize}{}
+
+\subsection{K-Fold cross validation}
+
+\paragraph{Problem with K-Fold}
+prediction quality is determined for a model which has been trained
+on approximately n(K - K)=K data; there exists a systematic tendency
+to underfit since the adapted model is not as complex as it could have
+been using the full data set. Leave-one out k-fold on the other hand has usually great variance. Engineers solution choose k = $min{\sqrt{n}, 10}$ \\
+\\
+\textbf{Note that it is important to calculate the final prediction error on data which have not been used in model fitting (training) nor in model selection (testing for parameter adaptation).}
+
+\subsection{Bootstrapping}
+Resampling with Replacement of the training data yields different bootstrap sample sets; numerical calculation of the estimation error by the empirical distribution.
+
+\paragraph{When does Bootstrap work?}
+if the deviation between empirical and bootstrap estimator converges in probability to the deviation between true parameter value and the empirical estimator. But Bootstrap estimation of classification error is too optimistic - Problem of overlap of training and test set.
+
+\paragraph{Improvement of plain bootstrap:}
+\begin{itemize}
+    \item[-]Leave-one-out bootstrap: dont use on datapoint, same problems as in CV.
+    \item[-].632 Bootstrap: 
+\end{itemize}{}
+
+\subsection{Sketching distributions:}
+How can we encode uncertainty of distributions?
+\begin{itemize}
+    \item[-]Moment methods: CV and bootstap provide numerical techniques to estimate moments of some statistic.
+    \item[-]Graphical sketch: Box plotes sketch a distribution.
+    \item[-]Density estimation: The most information of data is captured by its probability distribution.
+\end{itemize}{}
+
+\subsection{Jackknife Method}
+Numerical estimate of the bias of an estimator.
+
+\paragraph{idea:}
+\begin{itemize}
+    \item[-]Use the leave-one-out estimator $S_{n-1}$ to estimate the bias of $S_n$
+    \item[-]Subtract the bias from the estimator.
+    \item[-]But Bias corrected estimators can have a considerably larger variance.
+\end{itemize}
+
+\section{Model Selection}
+
+\subsection{Neyman-Pearson Test}
+???
+
+\subsection{Complexity-Based Model Selection}
+Add a complexity term to the goodness of fit term. 
+Choose the simplest model that explains the data.
+E.g. Negative log-likelihood usually decreases with increasing model complexity. Correct this tendency to select complex models with a complexity penalty.
+
+\subsection{Bayesian Information Criterion (BIC)}
+not covered
+\subsection{Minimum Description Length}
+not covered
+\subsection{Akaike Information criterion (AIC)}
+approximates the Kullback-Leibler (KL) divergence between the true model and the estimate. AIX is asymptotically equivalent to leave-one-out cross validation for ordinary linear regression models
+
+not covered
+
+\subsection{Takeuchi Information Criterion (TIC)}
+not covered
