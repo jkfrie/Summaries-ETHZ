@@ -1,0 +1,103 @@
+\section{Network verification}
+\subsection{Introduction}
+\begin{itemize}
+    \item Each router:\begin{itemize}
+        \item Runs multiple routing protocols (e.g. OSPF, BGP, ISIS)
+        \item Stores a configuration (parameters used by the protocols)
+    \end{itemize}
+    \item Forwarding table:\begin{itemize}
+        \item Defines the next hop for any packet
+        \item Collectively, the forwarding tables of all routers define the forwarding plane
+    \end{itemize}
+\end{itemize}
+\begin{minipage}{\linewidth}
+    \centering      
+    \def\svgwidth{\linewidth}
+    \input{Figures/L8_networkConfiguration}    
+\end{minipage}
+\paragraph{Why network configuration is hard:\newline}
+We have multiple protocols (BGP, OSPF, IS-IS), each with their own low-level configurations (BGP-Policies, Link costs, Static routes). Also the protocols themselves interact with each other (Preferences like: static over OSPF; Dependencies: BGP relies OSPF)\newline
+\paragraph{Example\newline}
+\begin{minipage}{\linewidth}
+    \centering      
+    \def\svgwidth{\linewidth}
+    \input{Figures/L8_networkConfiguration2}    
+\end{minipage}
+\begin{minipage}{\linewidth}
+    \centering      
+    \def\svgwidth{\linewidth}
+    \input{Figures/L8_ExampleExtended}    
+\end{minipage}
+\subsection{Analysis of Network Configurations via Datalog}
+\begin{minipage}{\linewidth}
+    \centering      
+    \def\svgwidth{\linewidth}
+    \input{Figures/L8_networkAnalysisWithDatalog}    
+\end{minipage}
+\subsection{Batfish}
+\begin{itemize}
+\item Network configuration analyzer
+ \item Available at http://www.batfish.org/
+ \item Has found real bugs in real networks
+ \item Three steps:
+ \begin{enumerate}
+    \item Parse configurations (to derive input facts)
+    \item Compute forwarding plane (by computing a fixedpoint)
+    \item Check for violations (by querying the fixed-point)
+\end{enumerate}
+\end{itemize}
+
+\paragraph{Step 1: Parse configurations\newline}
+\begin{minipage}{\linewidth}
+    \centering      
+    \def\svgwidth{\linewidth}
+    \input{Figures/L8_configParsing}    
+\end{minipage}
+\paragraph{Step 2: Compute forwarding plane}
+\begin{itemize}
+    \item Compute OSPF routes
+    \begin{itemize}
+    \item Input: OSPFLink(Router1, Router2, Cost)
+    \item Wanted Output: BestOSPFRoute(Router, Network, NextHop)\newline
+    \begin{minipage}{\linewidth}
+    \centering      
+    \def\svgwidth{\linewidth}
+    \input{Figures/L8_step2_OSPF}    
+\end{minipage}
+\end{itemize}
+    \item Compose protocols (by given preference)
+    \begin{itemize}
+        \item Inputs: 
+        \begin{itemize}
+            \item bestOSPFRoute(Router, Network, NextHop, Cost)
+            \item static(Router, Network, NextHop)
+            \item localPref(Router, Protocol, Preference)
+        \end{itemize}
+        \item Output: fwd(Router, Network, NextHop)\newline
+        \begin{minipage}{\linewidth}
+        \centering      
+        \def\svgwidth{\linewidth}
+        
+        \input{Figures/L8_step2_fwd}   
+        \end{minipage}
+    \end{itemize}
+\end{itemize}
+\paragraph{Step 3: Analyze forwarding plane\newline}
+For example: Detect Multi-path Inconsistencies with the following\newline
+\vspace{0.5cm}
+\begin{minipage}{0.5\linewidth}
+        \centering      
+        \def\svgwidth{\linewidth}
+        \input{Figures/L8_multipath}   
+\end{minipage}
+\vspace{0.5cm}
+\newline More properties:\newline
+\begin{itemize}
+    \item Paths: Packets for traffic class tc must follow the path \texttt{r1 -> ... -> r10}\newline \texttt{holds <- fwd(r1, tc, r2), ..., fwd(r9, tc, r10)}
+    \item Traffic isolation: The paths for two distinct traffic classes \texttt{tc1} and \texttt{tc2} do not share links in the same direction\newline 
+\texttt{holds <- $\forall$ R1, R2. fwd(R1, tc1, R2) => (!fwd(R1, tc2, R2))}
+    \item Reachability: Router can reach a given traffic class
+    \item Loop-freeness: The forwarding plane has no loops
+\end{itemize}
+
+

@@ -1,0 +1,77 @@
+\section{Network Synthesis}
+\paragraph{Program Synthesis: } Learning a function from specifications (e.g. examples).
+In this section we cover the synthesis of correct network configurations through incorporation of powerful SAT/SMT solvers. Two such network conficuration synthesisers are SyNET and NetComplete.
+
+\subsection{SyNET}
+\begin{minipage}{\linewidth}
+    \centering      
+    \def\svgwidth{\linewidth}
+    \input{Figures/L9_SyNET}    
+\end{minipage}
+
+\paragraph{Datalog rules vs SMT constraints: } Datalog rules are logical constraints that can be fed to an SMT solver.
+\begin{itemize}
+    \item constraints on datalog inputs (i.e. containing no derived datalog rules) can be converted directly to logical constraints.
+    \item Derived datalog rules need a bit more work (unrolling) because the datalog derivation works different than the logical implication. 
+\end{itemize}
+
+\paragraph{Input synthesis for Datalog via SMT: }
+\begin{enumerate}
+    \item \textcolor{orange}{Encode Program P} into SMT constraints, which capture the fixed-point computed by P for a given input I.
+    \item \textcolor{orange}{Encode query q} as assertions that must hold on the fixed-point.
+    \item \textcolor{orange}{Get a model M} that satisfies the conjunction of the above constraints.
+    \item \textcolor{orange}{Derive input I} from M by checking which atoms are true in M.
+\end{enumerate}
+\textcolor{red}{$\rightarrow$ But be careful: }In Datalog, given a rule $p \leftarrow q$, p is derived iff q is true. However in logic, the constraing $p \impliedby q$ is satisfied if p is true an q is false! Switch implication symbol to a if and only if symbol and unroll the datalog rule - make a formula for each time applying the consequence operator)\\
+\textcolor{blue}{$\rightarrow$ What about negative queries?} Unrolling the Datalog rules works for positive queries beacause, by monotonicity of the consequence operator, any atom derived in a given step of the consequence operator is guaranteed to remain in the fixed point. For negative queries e.g. !path(1,3) we don't need to unroll, simply use the implication symbol.\\
+\textcolor{blue}{$\rightarrow$ What about stratified Datalog?} Can be done by iteratively synthesizing an input for each stratum, starting from the highest stratum, going towards the lowest one. The iterative process may require backtracking if we end up with no possible solution.
+
+\begin{minipage}{\linewidth}
+    \centering      
+    \def\svgwidth{\linewidth}
+    \input{Figures/L9_InputSynthesis}    
+\end{minipage}
+
+\paragraph{Challenges: }Key challenge is the scaling of synthesis for OSPF protocol (takes much more computation time)
+
+\subsection{NetComplete}
+\paragraph{Sketching: } A concept to express intent
+\begin{itemize}
+    \item Allow users to express insight by defining the hypothesis space and bias the search.
+    \item Machine helps with low-level reasoning
+\end{itemize}
+
+\paragraph{Expressing Intent}Two ways to express intent and control hypothesis space:
+\begin{itemize}
+    \item \textcolor{orange}{Specifications: }Define what function you actually want:
+    \begin{itemize}
+        \item Assertions: \texttt{assert x > y;}
+        \item Concrete Examples: \texttt{x = 5 or x = 6}
+        \item Function Equivalence: \texttt{blockedMatMul(Mat a, Mat b) implements matMul}
+    \end{itemize}
+    \item \textcolor{orange}{Holes: }To be instantiated by the synthesizer. Fragment must come from a set defined by the user. Holes define the hypothesis space.\\
+    
+    \begin{minipage}{\linewidth}
+    \centering      
+    \def\svgwidth{\linewidth}
+    \input{Figures/L9_Holes}    
+    \end{minipage}
+
+\end{itemize}
+
+\paragraph{Synthesizing functions: } Look at slides 49ff. (chume nöd ganz drus)
+\begin{enumerate}
+    \item Turn holes into special inputs of the function (Control inputs C)
+    \item Constraining the set of controls. Constraints are collected into a predicate Q(x,c)
+    \item Synthesize function: Learning reduces to constraint satisfaction
+\end{enumerate}
+
+\paragraph{Counter-example guided inductive synthesis (CEGIS): } CEGIS aims to find the right small set of examples S so that if we learn a function F satisfying S, then F is likely to be correct on all (potentially infinite set of) examples
+
+\begin{minipage}{\linewidth}
+    \centering      
+    \def\svgwidth{\linewidth}
+    \input{Figures/L9_CEGIS}    
+    \end{minipage}
+
+\paragraph{Efficient OSPF synthesis using CEGIS: } Define logical constraints that capture the OSPF requirements. Find cost assignment f such that requirements hold. Formula given to the solver.

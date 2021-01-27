@@ -1,0 +1,15 @@
+\section{Exercises}
+
+\paragraph{Revert vs. Require vs. Assert: }
+\begin{itemize}
+    \item Revert: Refund remaining Gas, Revert state and return a value, but does not take condition as argument.
+    \item Require: Same as Revert but takes condition as argument.
+    \item Assert: Burn all remaining Gas, Revert state.
+\end{itemize}
+
+\paragraph{Call vs. Send vs. Transfer}
+\begin{itemize}
+    \item Call: No error propagation but returns false, not safe against reentrancy. 
+    \item Send: No error propagation but returns false if there is an error. Only gas for one single event.
+    \item Transfer: Error propagation, Only gas for single event
+\end{itemize}

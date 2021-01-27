@@ -1,0 +1,54 @@
+
+\documentclass[a4paper, 8pt]{extarticle}
+\usepackage[utf8]{inputenc}
+
+\title{Program Analysis for System Security and Reliability FS20}
+\author{jasonf & joels }
+\date{March 2020}
+
+\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{fourier}
+\usepackage{array}
+\usepackage{svg}
+\usepackage{amsmath}
+\usepackage{xcolor}
+%\usepackage[parfill]{parskip}
+\newcommand{\myparagraph}[1]{\paragraph{#1}\mbox{}\\}
+\usepackage{adjustbox}
+
+% Multi-column layout
+\usepackage{multicol}
+
+%Figures folder
+\graphicspath{{Figures/}}
+
+% Manually set page marginshttps://de.overleaf.com/project/5e791732b70cd40001ef8300
+\usepackage[margin=0.5cm]{geometry}
+
+% Manually set margins on lists
+\usepackage{enumitem}
+% Change list margins - https://tex.stackexchange.com/questions/10684/vertical-space-in-lists
+\setlist{leftmargin=3mm, nosep}
+% or \setlist{noitemsep} to leave space around whole list
+
+\definecolor{orange}{rgb}{1,0.5,0}
+\definecolor{green}{rgb}{0.0, 0.5, 0.0}
+
+\begin{document}
+\begin{multicols*}{2}
+\maketitle
+\tableofcontents
+\input{Sections/Blockchain}
+\input{Sections/EthereumSmartContracts}
+\input{Sections/Fuzzing}
+\input{Sections/DatalogStaticAnalysis}
+\input{Sections/FunctionalSpecification}
+\input{Sections/FormalVerification}
+\input{Sections/NetworkVerification}
+\input{Sections/NetworkSynthesis}
+\input{Sections/BigCode}
+\input{Sections/Exercises}
+\end{multicols*}
+\end{document}

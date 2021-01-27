@@ -1,0 +1,76 @@
+\section{Formal Verification}
+
+\paragraph{Goal: } For a contract with a set of behaviours B and for a safety property P, prove that B $\subseteq$ P. Reduce this to assertion verification.
+
+\paragraph{Verification Recipe: } Start with a bundle of contracts and a \textcolor{blue}{canonical safety} specification $\square\varphi$.
+\begin{enumerate}
+    \item Convert the bundle to a program $\Pi$ that generates all bundle behaviors B.
+    \item Turn $\varphi$ to an \textcolor{blue}{assertion} by instrumenting $\Pi$ with variables tracking past values (now assertion = non-temporal formula).
+    \item Use standard assertion verification techniques to verify $\varphi$.
+\end{enumerate}
+
+\paragraph{State Transition Systems: } The mathematical perspective of the verification.
+
+\begin{minipage}{0.9\linewidth}
+    \centering      
+    \def\svgwidth{\linewidth}
+    \input{Figures/L7_sts}    
+\end{minipage}
+
+\paragraph{Invariants: } 
+\begin{itemize}
+    \item {\textbf{Invariant:}} definition in image above. 
+    \item proving invariants is too difficult, thats why we need inductive invariants.
+    \item \textbf{Inductive Invariants:} An inductive invariant of a STS is a state property I such that \textcolor{blue}{$S_0 \subseteq I$ and $T[I] \subseteq I$}.
+    \item \textbf{Theorem: } Every inductive invariant is an invariant.
+\end{itemize}
+
+\paragraph{How to prove inductiveness automatically?} 
+\begin{itemize}
+    \item Use the \textcolor{orange}{strongest postcondition} operator \textbf{sp} : Program x Assertion $\rightarrow$ Assertion.
+\end{itemize}{}
+
+\begin{minipage}{0.9\linewidth}
+    \centering      
+    \def\svgwidth{\linewidth}
+    \input{Figures/L7_strongest_postcondition}    
+\end{minipage}
+\\
+
+\begin{enumerate}
+    \item 
+    \begin{itemize}
+        \item [a)] A state transition system ($S$, $S_0$, $T$) is given by two progtams \texttt{init} and \texttt{step}:
+        \item[] \texttt{init; \textbf{while true} \{ step; \}}
+        \item [b)] A candidate invariant / is given by a formula $\varphi$.
+    \end{itemize}
+    \item Use and automated theorem prover to prove the validity of the formulas:
+    \begin{itemize}
+        \item[a)] $\textbf{sp}$ (\texttt{init, true}) $\rightarrow$ $\varphi$; (encodes $S_0 \subseteq I$)
+        \item[b)] $\textbf{sp}$ (\texttt{step,}) $\varphi \rightarrow \varphi$; (encodes $T[I] \subseteq I$)
+    \end{itemize}{}
+    \item[$\rightarrow$] \textcolor{blue}{Example of this process on slide 15.}
+\end{enumerate}
+
+\paragraph{Computing  $sp(\Pi,\varphi)$}\textbf{by symbolic execution:}
+
+\begin{minipage}{0.9\linewidth}
+    \centering      
+    \def\svgwidth{\linewidth}
+    \input{Figures/L7_symbolic_exec}    
+\end{minipage}
+
+\begin{itemize}
+    \item If $\Pi$ contains loops then, \#paths = $\infty$, requiring more sophisticated techniques.
+    \item [$\rightarrow$] \textcolor{blue}{Example of this process on slide 18.}
+\end{itemize}{}
+
+\paragraph{How to prove non-inductive variants?}
+\begin{itemize}
+    \item Find an inductive strengthening $l$ manually: $l$ is inductive and $l \rightarrow \varphi$.
+    \item and prove analogously the strengthening $l$ automatically.
+\end{itemize}{}
+
+
+
+

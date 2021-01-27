@@ -1,0 +1,22 @@
+\section{Big Code}
+\paragraph{Big Code:} Create new software tools that leverage massive codebases to solve
+problems beyond what is possible with traditional techniques. Usually the more specifications (understanding of how program code works) to standard models the better they get. The goal is to learn specifications automatically from large codebases.
+\subsection{Example: Injection Attacks}
+\paragraph{Tools to find Injection Attacks}
+Use static taint analysis, but what about missing (not detected) sinks, sanitizers and sources? \\
+
+\begin{minipage}{0.9\linewidth}
+    \centering      
+    \def\svgwidth{\columnwidth}
+    \input{Figures/L10_Model}    
+\end{minipage}
+
+\subsection{Pointer Analysis}
+\paragraph{Problems with Pointer Analysis:}
+\begin{itemize}
+    \item Analysis of code for different libraries.
+    \item Dynamic Runs (e.g. complex runtime behaviours of java.sql)
+    \item Need knowledge how to analyze corner cases and libraries
+\end{itemize}
+\\
+$\rightarrow$ Use ML for a scalable solution to pointer analysis!
