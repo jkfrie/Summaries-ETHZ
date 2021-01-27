@@ -1,0 +1,125 @@
+\section*{Probabilities}
+\subsection*{Expectation}
+$\mathbbm{E}[X]=\int_{\Omega}xf(x)\di x=\int_{\omega}x\mathbb{P}[X{=}x]\di x$ \\
+$\mathbb{E}_{Y|X}[Y]=\mathbb{E}_{Y}[Y|X]$\\
+$\mathbb{E}_{X,Y}[f(X,Y)]=\mathbb{E}_{X}\mathbb{E}_{Y|X}[f(X,Y)|X]$
+% $\mathbb{E}_{Y|X}[f(X,Y)|X]{=}\int_\mathbb{R}f(X,y)\mathbb{P}(y|X)\di y$
+
+\subsection*{Variance \& Covariance}
+$\mathbb{V}(X){=}\mathbb{E}[(X{-}\mathbb{E}[X])^2]{=}\mathbb{E}[X^2]{-}\mathbb{E}[X]^2$\\
+$\mathbb{V}[X{+}Y]{=}\mathrm{Var}[X]{+}\mathrm{Var}[Y] \quad \text{for }X,Y \,\text{iid} \\
+\mathbb{V}(AX) = A \mathbb{V}(X) A^T$ \\
+$\mathbb{V}[\alpha X]=\alpha^2\mathrm{Var}[X]$ \\
+$\mathrm{Cov}(X,Y)=\mathbb{E}[(X-\mathbb{E}[X])(Y-\mathbb{E}[Y])]$
+
+\subsection*{Conditional Probabilities \& Bayes}
+$\mathbb{P}[X|Y]=\frac{\mathbb{P}[X,Y]}{\mathbb{P}[Y]}=\frac{\mathbb{P}[Y|X]\mathbb{P}[X]}{\mathbb{P}[Y]}$
+$\rightarrow$ can be found by taking $\mathbb{P}[X,Y]$ take Y const.
+
+\subsection*{Distributions}
+$\mathcal{N}(x|\mu, \sigma^2)=\frac{e^{-(x-\mu)^2/(2\sigma^2)}}{\sqrt{2\pi\sigma^2}}$\\
+$\mathcal{N}(x|\bm{\mu}, \bm{\Sigma})= \frac{e^{-\frac{1}{2}(\mathbf{x}-\bm{\mu})^T\bm{\Sigma}^{-1}(\mathbf{x}-\bm{\mu})}}{(2\pi)^{D/2}|\bm{\Sigma}|^{1/2}} $\\
+$\text{Ber}(x|\theta) = \theta^x(1-\theta)^{1-x} \quad 0 \leq \theta \leq 1$
+\subsection*{Chebyshev \& Consistency}
+$\mathbb{P}(|X-\mathbb{E}[X]|\geq \epsilon)\leq \frac{\mathbb{V}[X]}{\epsilon^2}$
+\subsection*{Jensen Inequality}
+$f(\sum_{i=1}^n \lambda_i x_i) \leq \sum_{i=1}^n \lambda_i f(x_i)$
+
+\subsection*{Cramer Rao lower bound}
+$\mathrm{Var}[\hat{\theta}]\geq \mathcal{I}_n(\theta)^{-1}$\\
+$\mathcal{I}_n(\theta) = -\mathbb{E}[\frac{\partial^2 \mathrm{log}p[\mathcal{X}_n|\theta]}{\partial \theta^2}]$, $\hat{\theta}$ unbiased\\
+Efficiency of $\hat{\theta}$: $e(\theta_n)=\frac{1}{\mathrm{Var}[\hat{\theta}_n]\mathcal{I}_n(\theta)}$\\
+$e(\theta_n) = 1$ (efficient)\\
+$lim_{n\rightarrow\infty}e(\theta_n) = 1$ (asymp. efficient)
+
+\subsection*{Derivatives}
+$\frac{\partial}{\partial \mathbf{x}}(\mathbf{b}^\top \mathbf{x}) = \frac{\partial}{\partial \mathbf{x}}(\mathbf{x}^\top \mathbf{b}) = \mathbf{b}$ \\
+$\frac{\partial}{\partial \mathbf{x}}(\mathbf{x}^\top \mathbf{x}) = 2\mathbf{x}$ \\
+$\frac{\partial}{\partial \mathbf{x}}(\mathbf{x}^\top \mathbf{A}\mathbf{x}) = (\mathbf{A}^\top + \mathbf{A})\mathbf{x}$ \quad
+$\frac{\partial}{\partial \mathbf{x}}(\mathbf{b}^\top \mathbf{A}\mathbf{x}) = \mathbf{A}^\top \mathbf{b}$ \quad
+$\frac{\partial}{\partial \mathbf{X}}(\mathbf{c}^\top \mathbf{X} \mathbf{b}) = \mathbf{c}\mathbf{b}^\top$ \quad
+$\frac{\partial}{\partial \mathbf{x}}(\| \mathbf{x}-\mathbf{b} \|_2) = \frac{\mathbf{x}-\mathbf{b}}{\|\mathbf{x}-\mathbf{b}\|_2}$ \\
+$\frac{\partial}{\partial \mathbf{x}}(\|\mathbf{x}\|^2_2) = \frac{\partial}{\partial \mathbf{x}} (\mathbf{x}^\top \mathbf{x}) = 2\mathbf{x}$ \quad
+$\frac{\partial}{\partial \mathbf{X}}(\|\mathbf{X}\|_F^2) = 2\mathbf{X}$  \quad \quad
+$\frac{\partial}{\partial \mathbf{x}}||\mathbf{x}||_1 = \frac{\mathbf{x}}{|\mathbf{x}|}$ \\
+$\frac{\partial}{\partial \mathbf{x}}(\|\mathbf{Ax - b}\|_2^2) = \mathbf{2(A^\top Ax-A^\top b)}$ \quad
+$\frac{\partial}{\partial \mathbf{X}}(|\mathbf{X}|) = |\mathbf{X}|\cdot \mathbf{X}^{-1}$ $\quad |X| = 1 / |X^{-1}|$\\
+$\frac{\partial}{\partial x}(\mathbf{Y}^{-1}) = -\mathbf{Y}^{-1} \frac{\partial\mathbf{Y}}{\partial x} \mathbf{Y}^{-1}$
+\section*{Parametric Density Estimation}
+\subsection*{Maximum Likelihood (MLE)}
+Likelihood: $\mathbb{P}[\mathcal{X}|\theta]=\prod_{i\leq n}p(x_i|\theta)$\\
+Find: $\hat{\theta}\in \argmax_\theta \mathbb{P}[\mathcal{X}|\theta]$\\
+Procedure: solve $\nabla_\theta \log \mathbb{P}[\mathcal{X}|\theta]\equiv 0$\\
+Consistent: converges to best $\theta_0$\\
+\textbf{MLE for Gaussian:}\\ 
+1) $\mathcal{L} \propto Nlog|\Sigma| + \sum_{i}^N(x_i{-}\mu)^T\Sigma^{-1}(x_i{-}\mu)$ \\
+2) $\hat \mu = \frac{1}{N}\sigma_i^N x_i $ \\
+3)Trick: derive wrt. $\Sigma^{-1}\rightarrow\hat \Sigma = \frac{1}{N} \sum_i^N(x_i-\mu)(x_i-\mu)^T$ \\
+4) Show $\hat \Sigma $ is biased:
+$\mathbb{E}(\hat \Sigma) = $\\
+$\frac{1}{N} \sum_i^N \mathbb{E}(x_ix_i^T) -\frac{1}{N^2}\sum_i^N\sum_j^N \mathbb{E}(x_ix_j^T)-\frac{1}{N^2}\sum_i^N\sum_j^N \mathbb{E}(x_ix_j^T) +\frac{1}{N^2}\sum_i^N\sum_j^N \mathbb{E}(x_ix_j^T) = \frac{1}{N} \sum_i^N \mathbb{E}(x_ix_i^T) -\frac{1}{N^2}\sum_i^N\sum_j^N \mathbb{E}(x_ix_j^T) = \frac{1}{N}N(\Sigma+\mu \mu^T)- \frac{1}{N^2}(N^2\mu \mu^T+N\Sigma)= \Sigma-\frac{1}{N}\Sigma \neq \Sigma$
+\textbf{Tricks used here:}\\
+$\Sigma = \mathbb{E}[(x_i-\mu)(x_i-\mu)^T] = \mathbb{E}[x_ix_i^T]-\mu\mu^T \rightarrow \mathbb{E}[x_ix_i^T] = \Sigma + \mu \mu^T$ and for $i\neq j$ $\mathbb{E}[x_ix_j^T] = \mu\mu^T$
+Also useful: \\
+$\frac{1}{N} \sum_{i=1}^N \mathbb{E}[x_i\hat\mu^T] = \frac{1}{N^2} \sum_{i=1}^N \sum_{j=1}^N \mathbb{E}[x_ix_j] $
+
+\subsection*{Maximum A Posteriori (MAP)}
+Assume prior $\mathbb{P}(\theta)$\\
+Find: $\hat{\theta}\in \argmax_\theta P(\theta|\mathcal{X})$\\
+$\quad \quad \quad =\argmax_\theta P(\mathcal{X}|\theta)P(\theta)$\\
+Solve $\nabla_\theta log P(\mathcal{X}|\theta)P(\theta)=0$\\
+Note:  $ P(\mathcal{Y}|\mathcal{X}, \beta) \sim \mathcal{N}(X^T\beta, \sigma^2)$\\
+$\rightarrow \argmax_\theta log(P(\mathcal{Y}|\mathcal{X}, \beta))$\\
+$\ \ = \argmax_\theta -\frac{1}{2\sigma^2}||Y-X^T\beta||^2$
+\subsection*{Bayesian learning}
+$p(X=x|data) = \int p(x, \theta | data) d\theta = \int p(x|\theta)p(\theta|data)d\theta$ \\
+Estimate Gaussian: $X \sim \mathcal{N}(\mu, \sigma^2),$ \\
+$P(\mu) \sim \mathcal{N}(\mu_0, \sigma_0^2)$ then $\sigma_n^2 = \frac{\sigma^2 \sigma_0^2}{n\sigma_0^2 + \sigma^2},$ $ \mu_n = \frac{n\sigma_0^2}{n\sigma_0^2 + \sigma^2} \hat \mu_n + \frac{\sigma^2}{n\sigma_0^2 + \sigma^2}\mu_0$ with \\
+$\hat \mu_n = \frac{1}{n}\sum_{i=1}^n x_i$
+\subsection*{Bayesian density learning}
+Prior Knowledge of $p(\theta)$,\\
+Find Posterior Density: $p(\theta|\mathcal{X})$.\\
+$\mathcal{X}^n=\{x_1, \cdots, x_n\}$\\
+$p(\theta|\mathcal{X}^n)=\frac{p(x_n|\theta)p(\theta|\mathcal{X}^{n-1})}{\int p(x_n|\theta)p(\theta|\mathcal{X}^{n-1}) d\theta}$
+% Difficult \& needs prior knowledge. But better against overfitting.
+
+
+\subsection*{Frequentist vs Bayesian}
+Bayes (MAP): allows priors, provides distribution when estimating parameters, requires efficient integration methods when computing posteriors, prior often induces regularization term \\
+Frequentist method (MLE): does not allow priors, provides a single point when estimating parameters, requires only differentiation methods, MLE estimators are consistent, equivariant, asymptotically normal, asymptotically efficient (for finite samples not necessarily efficient). 
+
+\section*{Optimization}
+\subsection*{Gradient Descent}
+$\theta^{\mathrm{new}}\leftarrow\theta^{\mathrm{old}}-\eta\nabla_{\theta}\mathcal{L}$\\
+Conv. isn't guaranteed.
+Less zigzag by adding momentum: $\theta^{(l+1)}\leftarrow\theta^{(l)}-\eta\nabla_{\theta}\mathcal{L}+\mu(\theta^{l}-\theta^{(l-1)})$
+
+\subsection*{Newton's Method (opt. grad. descent)}
+Use 2nd order derivation. (Hessian)
+$\theta^{\mathrm{new}}\leftarrow\theta^{\mathrm{old}}-\eta(\nabla_{\theta}\mathcal{L}/\nabla^2_{\theta}\mathcal{L})$\\
+$H=\nabla^2_{\theta}\mathcal{L}$ has to be p.d (convex func).
+Find this by setting derivative wrt. t of taylor expansion of loss function to 0. \\
+Taylor:\\
+$f(x+t)=f(x)+t f'(x)+\frac{1}{2}f''(x)t^2$
+
+\section*{Data Types}
+monadic: $X: O \rightarrow \mathbb{R}^d$ \\
+dyadic: $X: O^{(1)} x O^{(2)} \rightarrow \mathbb{R}^d $.\\
+pairwise: $X: O^{(1)} x O^{(1)} \rightarrow \mathbb{R}^d$ \\
+polyadic data: $X: O^{(1)} x O^{(2)} x O^{(3)} \rightarrow \mathbb{R}^d $ \\
+nominal = qualitative (sweet, sour ...),\\
+ordinal = absolute order of items, \\
+quantitative = numbers
+\section*{Risks and Losses}
+%Conditional Expected Risk:\\
+%$R(f, X) = \int_\mathcal{Y} Q(Y, f(X)) P(Y|X)dY$ \\
+%where $Q(Y,f(X))$ is the loss function.\\
+%Total Expected Risk:\\
+%$R(f) = \mathbb{E}_\mathcal{X}[R(f, X)]$
+Expected Risk:\\ $R(\hat c) = \sum_{y \leq  k}P(y)\mathbb{E}_{P(x|y)}[\mathbb{I}_{{\hat c(x) \neq y}}| Y = y]$ or 
+$R(\hat c) = P(\hat c (X) \neq y)$
+
+Empirical Risk Minimizer (ERM) $\hat{f}$:\\
+$\hat{f} \in \argmin_{f \in \mathcal{C}} \hat{R}(\hat{f}, Z^{train})$\\
+$\hat{R}(\hat{f}, Z^{train}) = \frac{1}{n} \sum_{i=1}^n Q(Y_i, \hat{f}(X_i))$\\
+$\hat{R}(\hat{f}, Z^{test}) = \frac{1}{m} \sum_{i=n+1}^{n+m} Q(Y_i, \hat{f}(X_i))$

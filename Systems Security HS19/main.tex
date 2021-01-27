@@ -1,0 +1,43 @@
+\documentclass[a4paper, 8pt]{extarticle}
+\usepackage[utf8]{inputenc}
+
+\title{System Security HS19}
+\author{jasonf }
+\date{September 2019}
+
+\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{fourier}
+\usepackage{array}
+
+\usepackage{adjustbox}
+
+% Multi-column layout
+\usepackage{multicol}
+
+% Manually set page margins
+\usepackage[margin=0.5cm]{geometry}
+
+% Manually set margins on lists
+\usepackage{enumitem}
+% Change list margins - https://tex.stackexchange.com/questions/10684/vertical-space-in-lists
+\setlist{leftmargin=3mm, nosep}
+% or \setlist{noitemsep} to leave space around whole list
+
+\begin{document}
+
+\maketitle
+\begin{multicols*}{2}
+\tableofcontents
+\input{Sections/background.tex}
+\input{Sections/sidechannel_attacks.tex}
+\input{Sections/security_on_comodity_systems.tex}
+\input{Sections/computer_architecture.tex}
+\input{Sections/os_security.tex}
+\input{Sections/mobile_platform_security.tex}
+\input{Sections/attestation.tex}
+\input{Sections/iot.tex}
+\end{multicols*}
+
+\end{document}

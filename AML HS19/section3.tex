@@ -1,0 +1,66 @@
+\section*{Nonlinear Regression}
+\textbf{Idea:} Feature space transformation\\
+Model: $\mathbf{Y}=f(\mathbf{X})=\sum_{m=1}^M\beta_m h_m(\mathbf{X})$\\
+Transformation $h_m(\mathbf{X}):\mathbb{R}^d \rightarrow \mathbb{R}$
+
+
+ \subsection*{Cubic Spline}
+ e.g. for $d=1$ with knots at $\xi_1$ and $\xi_2$\\
+ $h_1(X){=}1\ \ \ h_3(X){=}X^2\ \ \ h_5(X){=}(X{-}\xi_1)^3_+$ \ \ \
+ $h_2(X){=}X \quad h_4(X){=}X^3\ \ \ h_6(X){=}(X{-}\xi_2)^3_+$
+
+ \subsection*{Smoothing Spline}
+ Add penalty for second deriv.:  
+ $RSS(f, \lambda) {=}$
+ $ \sum_{n=1}^n (y_i-f(x_i))^2 + \lambda\int (f''(x))^2 dx$
+\subsection*{Wavelets}
+ Functions that measure local properties of the underlying data. Keep the most important ones and get rid of the noise.
+
+\subsection*{Gaussian Process Regression}
+joint Gaussian over all outputs\\
+$\mathbf{y}=\mathbb{X}\beta+\epsilon \quad \epsilon\sim \mathcal{N}(0,\sigma^2 \mathbb{I}_n)$\\
+We can rewrite the distribution\\
+$P(\begin{bmatrix}
+\mathbf{y}\\
+y_*\\
+\end{bmatrix}){=}$\\$\mathcal{N}(\begin{bmatrix}
+\mathbf{y}\\
+y_*\\
+\end{bmatrix}|\mathbf{0},\begin{bmatrix}
+\mathbf{K}+\sigma^2\mathbb{I} & \mathbf{k} \\
+\mathbf{k^T} & k(x_*,x_*) + \sigma^2\\
+\end{bmatrix})$\\
+
+$k$ is the kernel function. Lengthscale: how far can we reliably extrapolate.
+\subsection*{Gaussian Process Prediction}
+$p(y_*|x_*,\mathbf{X},\mathbf{y}) = \mathcal{N}(\mu_{y*},\sigma^2_{y_*})$,\\
+$\mu_{y_*}=\mathbf{k}^T(\mathbf{K}+\sigma^2\mathbb{I})^{-1}\mathbf{y}$,\\
+$\sigma^2_{y_*}=k(x_*,x_*){+}\sigma^2-\mathbf{k}^T(\mathbf{K}+\sigma^2\mathbb{I})^{-1}\mathbf{k}$\\
+$\mathbf{k}=k(x_*,\mathbf{X})\quad \mathbf{K}_{ij}=k(x_i,x_j)$
+
+\subsection*{General Conditional Gaussian Prediction}
+$P(\begin{bmatrix}
+\mathbf{a1}\\
+\mathbf{a2}\\
+\end{bmatrix}){=}\mathcal{N}(\begin{bmatrix}
+\mathbf{a1}\\
+\mathbf{a2}\\
+\end{bmatrix}|\begin{bmatrix}
+\mathbf{u1}\\
+\mathbf{u2}\\
+\end{bmatrix},\begin{bmatrix}
+\Sigma_{11} & \Sigma_{12} \\
+\Sigma_{21} & \Sigma_{22}\\
+\end{bmatrix})$\\
+ $p(\mathbf{a2}|\mathbf{a1}) =  \mathcal{N}(\mathbf{a2}|\mathbf{u2}+\Sigma_{21} \Sigma_{11}^{-1}(\mathbf{a1}-\mathbf{u1}), \Sigma_{22}- \Sigma_{21} \Sigma_{11}^{-1} \Sigma_{12})$
+
+
+\section*{Bias-Variance tradeoff}
+Bias($\hat{f}$)$=\mathbb{E}[\hat{f}]-f$\\
+Var($\hat{f}$)$=\mathbb{E}[(\hat{f}-\mathbb{E}[\hat{f}])^2]$
+\subsection*{Squared Error Decomposition}
+$\mathbb{E}_D\mathbb{E}_{X,Y}[(\hat{f}(X)-Y)^2]=$\\
+$\mathbb{E}_{X,Y}[(\mathbb{E}_{Y|X}[Y]-Y)^2]$ (noise var)\\
+$+\mathbb{E}_X\mathbb{E}_D[(\hat{f}_D(X)-\mathbb{E}_D[\hat{f}(X)])^2]$ (var.)\\
+$+\mathbb{E}_X[(\mathbb{E}_D[\hat{f}_D(X)]-\mathbb{E}_{Y|X}[Y])^2]$ (bias$^2$)\\
+With $\mathbb{E}_{Y|X}[Y]$ the expected label and $\mathbb{E}_{D}[\hat{f}(X)]$ the expected classifier.

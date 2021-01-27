@@ -1,0 +1,146 @@
+\section{Computer Architecture}
+
+\subsection{Computer Architecture Introduction}
+
+\begin{itemize}
+    \item Architecture: 
+    \begin{itemize}
+        \item[-]Abstract Model
+        \item[-]Instruction Set Architecture (ISA) specifies the interface between software and hardware.
+        \item[-]Visible to Software.
+        \item[-]E.g. X86, ARM, RISC-V
+    \end{itemize}{}
+    \item Microarchitecture: 
+    \begin{itemize}
+        \item[-]Actual implementation of architecture
+        \item[-]Follows ISA specification
+        \item[-]E.g. Intel Core i7, AMD Ryzen, ARM Cortex-A53
+    \end{itemize}{}
+\end{itemize}{}
+
+\paragraph{(Micro-) Architectural State} 
+\begin{itemize}
+    \item[-]Registers
+    \item[-]Main Memory (Stack, Heap)
+    \item[-]Caches
+    \item[-]Branch prediction history
+    \item[-]Reorder buffer
+    \item[-]TLB
+\end{itemize}{}
+
+\paragraph{Assembly} Read chapter in slides!
+
+\paragraph{Optimizations} 
+\begin{itemize}
+    \item[-]Memory Wall: memory is too small
+    \item[-]Solution: Hide the memory latency (Caches, Pipelining, Branch prediction, Out of Order execution)
+\end{itemize}{}
+
+\paragraph{Cache}
+\begin{itemize}
+    \item[-]Cache is layered (L1, L2, L3) L3 is usually shared among cores.
+    \item[-]Cache is shared across all applications
+    \item[-]Cache location depends on data address
+\end{itemize}{}
+
+\paragraph{Pipelining}
+\begin{itemize}
+    \item[-]Split instructions into small steps: inst fetch (IF), inst decode (ID), execute (EX), memory access (MEM) and register write back (WB).
+    \item[-]10 cycles to execute 2 instructions.
+    \item[-]Run steps of instructions in parallel.
+    \item[-]Branches: stalls pipeline b.c. next instruction is not known
+\end{itemize}{}
+\paragraph{Out of Order (OoO) Execution: }
+\begin{itemize}
+    \item[-]Parallelize execute stage
+    \item[-]Utilize all execution units (ALU, FPU,...)
+    \item[-]Requires no inter-instruction dependency.
+\end{itemize}{}
+
+\subsection{Cache side channel attacks}
+
+Caches are shared across all applications on a processor. Cache misses leak information. Attacker must control an application on the same Processor/System (Cloud hostin, User vs Kernel space, Javascript)
+
+\paragraph{Cache Side Channel - Flush+Reload}
+\begin{itemize}
+    \item[1.]Attacker flushes some shared memory in cache.
+    \item[2.]Victim tries to access it and thus reloads it.
+    \item[3.]Attacker accesses it again and gets fast access.
+\end{itemize}{}
+
+\paragraph{Cache Side Channel - Prime+Probe}
+\begin{itemize}
+    \item[-]Works also without shared memory.
+    \item[-]Attacker fills cache with his own data (Prime)
+    \item[-]Victim loads some data
+    \item[-]Attacker probes memory (fast access means victim did not access cache)
+\end{itemize}{}
+
+\subsection{Meltdown}
+
+\paragraph{Memory Organization - virtual memory}
+\begin{itemize}
+    \item[-]Abstracts physical memory to processes.
+    \item[-]Each process operates on it own seperate virtual memory (achieves isolation)
+    \item[-]If a process allocates more virtual memory than physically available, either: 1. some of its memory must be swapped to disk or 2. the process must be killed. The physical memory is shared among processes concurrently running.
+    \item[-]Translation of adresses is done through page tables. The OS sets up and maintains the PT. Translation is expensive requires multiple memory accesses.
+    \item[-]A page table entry (PTE) contains permission bits for a page(read only, executable, is supervisor page)
+\end{itemize}{}
+
+\paragraph{Memory Organization - Kernel}
+\begin{itemize}
+    \item[-]System calls require a context switch to kernel space (expensive).
+    \item[-]For efficiency modern OS map the whole kernel memory in every process virtual adress space.
+    \item[-]Permissions are enforced in hardware.
+    \item[-]Example mem access read in slides lecture 5 sl. 60
+    \item[-]B.c. mem access values are stored in temp register before it is checked whether permissions apply other inst can use the data before the instruction retires.
+\end{itemize}{}
+
+\paragraph{Meltdown}
+\begin{itemize}
+    \item[-]An invalid memory access still fetches data from memory. Permissions are only checked during retirement.
+    \item[-]The returned data becomes available to subsequent instructions.
+    \item[-]No change is architecturally visible (the pipeline is flushed during step 6
+    \item[-]However transient instr (inst that entered pipeline but should not have been issued) have microarchitectural side effects. They modify the cache!
+    \item[-]Meltdown read slide 65 ff.
+\end{itemize}{}
+
+\subsection{Spectre}
+
+\paragraph{Microarchitecture - Branch Prediction}
+\begin{itemize}
+    \item[-]Next instr. is known only when branch instr. is completed.
+    \item[-]Idea: Predict the outcome and proceed with the execution. Misprediction cost up to 20 cylcles b.c. of rollback. But if most of the time we predict correctly performance improves.
+    \item[-]Instructions predicted by the CPU are called speculative instructions. (current CPU's speculate correctly in 95\% of times)
+    \item[-]Branch predictor Implementations:
+    \begin{itemize}
+        \item Static predictions: e.g. choose most common jump address at compile time.
+        \item Dynamic predictors: use info gathered at run time to make a choice (branch history):
+        \begin{itemize}
+            \item Branch Target Buffer (BTB): stores target addresses of previous instances of a branch.
+            \item Branch History Buffer (BHB): allows to choose different entries in the BTB for the same branch based on its history
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+
+\paragraph{Problems with BTB: }
+\begin{itemize}
+    \item[-]Takes as input a branch virual address and stores the taken target.
+    \item[-]BTB does not store any info about process ID a virtual address belongs to.
+    \item[-]BTB is not flushed on context switch (i.e. when scheduling another process on a core.
+\end{itemize}
+
+\paragraph{Spectre}
+slide 90!!
+\begin{enumerate}
+    \item Pretrain the branch predictor.
+    \item Execute a sequence of instructions that accesses a secret value.
+    \item Cause a secret-dependent state change to the microarchitectural state.
+    \item Observe the microachitectural changes from an attacking process (side channel)
+    \item Repeat for all interesting addresses.
+\end{enumerate}
+
+\paragraph{Defense}
+\begin{itemize}
+    \item[-]Google developed retpoline: replaces all branches, no branch prediction possible, big performance impact. 
+\end{itemize}

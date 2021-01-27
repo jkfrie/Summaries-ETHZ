@@ -1,0 +1,78 @@
+\section{Mobile Platform Security}
+
+\subsection{History}
+How is mobile security evolution different from PC security?
+
+\paragraph{Different Shareholders}
+\begin{itemize}
+    \item Mobile network operators
+    \item End users
+    \item Regulators
+\end{itemize}{}
+
+\subsection{Mobile OS Security}
+\paragraph{Security-related design decisions}
+\begin{itemize}
+    \item Software distribution
+    \item Application isolation
+    \item Defining access to resources
+    \item Sharing functionality
+\end{itemize}{}
+
+\paragraph{Android architecture}
+Linux-base OS, open source, many variants\\
+
+\paragraph{Software Distribution}
+\begin{itemize}
+    \item Android allows software from multiple sources (unlike iOS).
+    \item Marketplace provides security scanning.
+    \item Application signing: Developer self-signs app (public key identifies developer, but a certain key does not imply developer @ UBS) 
+\end{itemize}{}
+
+\paragraph{Application isolation}
+\begin{itemize}
+    \item Normal process separation
+    \item Additionally Seperate UIDs for all applications
+    \item Binder mediates IPC (reference monitor)
+    \item Applications run in separate vm's
+\end{itemize}{}
+
+\paragraph{Defining Access to resources}
+Typical approach:
+\begin{enumerate}
+    \item Define security principals: sec principal = app (unlike Linux: user)
+    \item Implement reference monitor: two places: 1) in App framework for system APIs 2) part of OS for IPC calls to other apps.
+    \item Define security policy: Primarily apps request permissions, access to some resources granted automatically.
+\end{enumerate}{}
+
+\paragraph{Permissions}
+\begin{itemize}
+    \item 4 Categories: Normal, Dangerous, Signature, SignatureOrSystem.
+    \item Permissions are declared in the manifest.
+    \item Problem few uers can associate privacy risks with respective permissions and also habituation. Also many developers request unnecessary permissions.
+\end{itemize}{}
+
+\paragraph{Android Malware}
+\begin{itemize}
+    \item Often implemented by repacking popular apps
+    \item Detection: dist channels like Google Play.
+    \item Detection Techniques:
+    \begin{itemize}
+        \item static analysis: look for known malicious code.
+        \item Dynamic analysis: execute in simulated environment. (But malware can detect simulation and very expensive to explore all execution paths)
+    \end{itemize}{}
+    \item Leverage the fact that Android malware is often distributed by repackaging many popular apps. Take diffs from related Apps and identify suspicious code segments.
+\end{itemize}{}
+
+\subsection{Mobile Hardware Security}
+\paragraph{Why hardware security?}
+\begin{itemize}
+    \item Ensure that correct OS security framework is run on the device requires Platform Integrity. (Secure Boot, Authenticated Boot)
+    \item Run payment app on smartphone, requires isolated execution, secure storage and remote attestation or device authentication for provisioning of payment credential. (recall SXG enclaves and their trust model)
+\end{itemize}{}
+
+\paragraph{Trust anchors:}
+Minimal hardware elements and functionalities needed to implement the above security requirements.\\
+TODO look at slides
+
+\paragraph{TEE (ARM TrustZone)}

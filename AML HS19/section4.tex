@@ -1,0 +1,48 @@
+\section*{Numerical Est. Techinques}
+\textbf{Setting}: Estimate$\hat{f}(x) \in $ hypothesis class with minimal prediction error.
+
+\subsection*{K-Fold Cross Validation}
+Initialisation (split training set):\\
+$\mathcal{Z}=\mathcal{Z}_1\bigcup\mathcal{Z}_2\bigcup\cdots\bigcup\mathcal{Z}_K, \mathcal{Z}_\mu \bigcap\mathcal{Z}_\nu = \emptyset $
+% with map $\kappa:\{1,\cdots, n\} \rightarrow\{, \cdots, K\}$
+$|\mathcal{Z}_k|\approx n\frac{K-1}{K}$ \# of samples\\
+Learning:\\
+$\hat{f}^{-\nu}(x){=}
+\argmin_{f\in\mathcal{F}}\frac{\sum_{i\not\in\mathcal{Z}_\nu}(y_i-f(x_i))^2}{|\mathcal{Z}-\mathcal{Z}_{\nu}|}$\\
+Validation:\\
+$\hat{R}^{cv} = \frac{1}{n}\sum_{i\leq n}(y_i-\hat{f}^{-\kappa(i)}(x_i))^2$\\
+Underfits because smaller dataset.\\
+\textbf{Leave-one-out:} $K=n$ (unbiased but var can be large from correlated datasets)
+\subsection*{Bootstrapping}
+Bootstrap samples: $\mathcal{Z}^*=\{\mathcal{Z}_1^*, \cdots\mathcal{Z}_B^*\}$, of same size as original, drawn with replacement.
+The chance of a sample to have appeared in the bootstrap is:\\
+$1-(1-\frac{1}{n})\stackrel{n\to\infty}{\to} 1-\frac{1}{e}\approx 0.632$. So if we compute the ERM on $\mathcal{Z}$ we could get 63\% accuracy by memorization. Over-confident (shows too small bias)!\\
+\textbf{Leave-one-out/out of bucket error}: compensates by computing the ERM where no memorization was for specific sample. E.g., for classification, like cross-validation:\\
+$\hat{\mathcal{R}}(S(\mathcal{Z}))=\frac{1}{B}\sum_{b=1}^B\sum_{z_i\not\in\mathcal{Z}^{*b}}\frac{\mathbb{I}_{c(x_i)\neq y_i}}{B-\lvert\mathcal{Z}^{*b}\rvert}$
+
+\subsection*{Jackknife}
+Estimate of an estimator $\hat{S}_n$'s Bias.\\
+$\hat{S}^{JK}=\hat{S}_n-\mathrm{bias}^{JK}$ is JK Estimator.\\
+$\mathrm{bias}^{JK}{=}(n{-}1)(\tilde{S}_n{-}\hat{S}_n)$\\
+$\tilde{S}_n{=}\frac{1}{n}\sum_{i=1}^n\hat{S}_{n{-}1}^{-i}$ avg. LOO Estimator. \\
+Debiased est. can have big variance! This is not consistent, eg. if function is median\\
+\textbf{Example Exercise Jackknife} \\
+Setup: $X \sim \mathcal{U}[0, \theta], \hat S_n = max(X) = X_n$. \\
+1) Expected value of estimator: \\
+1.1) CDF $P(X_n \leq x) = (\frac{x}{\theta})^n$ \\
+1.2) PDF: $p(x) = \frac{\delta P(X_n \leq x)}{\delta x} = n \frac{x^{n-1}}{\theta^n}$ \\
+1.3) $\mathbb{E}(\hat S_n) = \int_0^\theta x n \frac{x^{n-1}}{\theta^n} = \frac{n}{n+1}\theta$ \\
+2) $\hat S_{n-1}^{i-1} = X_n$ if $i \neq i^*$ else $X_{n-1}$\\
+3) $\hat S^{JK} = X_n+\frac{n-1}{n}(X_n - X_{n-1})$ \\
+4) Expected value of $X_{n-1}$ \\
+4.1) $P(X_{n-1} \leq x) = (\frac{x}{\theta})^n + (\frac{x}{\theta})^{n-1}\frac{\theta-x}{\theta}n$ \\
+4.2) $p(x) = \frac{n(n-1)}{\theta}(\frac{x}{\theta})^{n-2}(1-\frac{x}{\theta})$\\
+4.3) $\mathbb{E}(X_{n-1})= \frac{n-1}{n+1}\theta$ \\
+5) $\mathbb{E}(\hat S_n^{JK}) = (1-\frac{1}{n^2+n})\theta$
+
+\textbf{Bootstrap debiased}\\ $\bar{S}{=}2\hat{S}{-}\frac{1}{B}\sum_b\hat{S}^*(b)$
+%
+%\section*{Model selection}
+%\textbf{Bayesian Information Criterion (BIC)}: $-2\log\mathbb{P}(\mathcal{X}|\theta_k)+k\log(n)$. Penalizes larger models (larger $k$ with more data $n$). Tendency to underfit.\\
+%\textbf{Akaike Information Criterion (AIC)}: $-2\log\mathbb{P}(\mathcal{X}|\theta_k)+2k$. Tendency to overfit.\\
+%\textbf{Takeuchi Information Criterion (TIC)}: $-2\log\mathbb{P}(\mathcal{X}|\theta_k)+2\text{Tr}(\mathcal{I}\mathcal{J}^{-1})$. \\ Correction of AIC if true model is not element of model class. If it is, they collapse to be the same.

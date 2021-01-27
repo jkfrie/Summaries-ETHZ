@@ -1,0 +1,206 @@
+\section{Side Channel Attacks}
+
+Security proofs are based on \textbf{models of system and attacker}. Models do not take into account the implementation and that it interacts with the environment. E.g. observing side information leakage.\\
+
+\subsection{Classic timing attack on RSA}
+    \begin{itemize}
+        \item [-]leverage execution time to recover the key.
+        \item [-]Applies to many asymmetric cryptosystems: RSA, EL Gamal, Diffie-Hellman.
+        \item [-]Cryptosystem vulnerable, when: 
+        \begin{itemize}
+            \item[1.] its exec time depends on the key
+            \item[2.] exec time measurable for different inputs.
+        \end{itemize}
+        \item [-]look at side channel attack (sl.21ff)
+        \item [-]\textbf{Hamming weight:} detect how many "1"s in key - Greatly reduces search space             but still huge. Due to Key-dependant Branching in code:
+        \item [-]In Montgomery multiplication the exec time depends on key and input (intermediary           value).
+        \item [-] Attack main idea: Try large nr of different messages and leverage avg execution            time (with statistical test).
+        \item [-] TODO: look at Sidechannel attack on slides 25.ff.
+    \end{itemize}    
+
+\subsubsection{Protecting against Timing Attacks}
+\begin{itemize}
+    \item[-] Point defenses are easy (make the last reduction in montgomery mult unconditional)
+    \item[-] Generic Protection is hard (ensure all ops take sam time for all inputs.
+    \item[-] Challenge: Performance penalty can be very high, plus difficult to implement.
+\end{itemize}
+
+\textbf{Masking by Kocher}
+\begin{itemize}
+    \item [-]Choose different random X for each message M
+    $$SIGN(m) = [(m*X^d mod n] * [(X^-1 )^d mod n] mod n = m^d mod n$$
+    \item[-] $(X^-1)^d mod n$ can be computed in advance. Two additional multiplications
+\end{itemize}{}
+
+\subsection{Cache attack on SGX enclaves (irrelevant)}
+Let us now consider a collocated adversary (e.g. one VM in cloud platform attacks another VM). Attacker and VM share resources like caches, DRAM, disk.\\
+\\
+\subsubsection{Prime and Probe attack:}
+\begin{itemize}
+    \item[-] Variant1: Data access depends on secret data (e.g. read var x or write var y based on key). --> Data access patterns in the cache leak information about the secret. 
+    \item[-] Variant2: Control flow depends on secret data (e.g. call function x() of y() base on key). --> Code access patterns in the cache leak information about the secret.
+    \item[-] TODO look at slide 36.
+\end{itemize}
+
+\subsubsection{Protection against cache attacks}
+\begin{itemize}
+    \item[-]Try to eliminate secret-dependent cache accesss patterns and control flow branches.
+    \item[-]E.g. Hardenet AES: when reading from one S-box touch each of them.
+\end{itemize}
+
+\subsection{Untrusted OS (irrelevant)}
+
+Modern proessors include security architectures that attempt to protect applications from untrusted OS e.g.: Intels Software Guard Extensions \textbf{(SGX)} (enclave = security critical part of application). Outsourcing data and computation to untrusted cloud is such a scenario.\\
+\\
+\textbf{Background on SGX:} OS cannot directly access enclave memory.
+\begin{itemize}
+    \item[-] Access control checks when enclave data processed inside the CPU.
+    \item[-] Data encrypted when it leaves the CPU.
+\end{itemize}{}
+\\
+\textbf{Attacking SGX enclaves: }
+\begin{itemize}
+    \item[-]Challenges: Speed, Noise, Attack detection, Enclave Hardening.
+    \item[-]Techniques: Performance Monitoring COunters(PMC), isolate victim, Hyper-threading, Attack target.
+\end{itemize}
+\\
+\subsection{Cache-timing attacks on AES}
+
+\begin{itemize}
+    \item\textbf{Vulnerability: }Software implementations using look-up tables to perform internal operations of the cipher, such as S-boxes. Include both the reference and optimized implementations of AES.
+    \item TODO: look at AES reference and optimized algorithm.
+    \item\textbf{Basic Idea: }The time needed to access a specific position in the lookup table depends on the address of this position. Attacker compares access time to same setup locally:
+    \begin{itemize}
+        \item[1.]For each byte of key, one index value will ave the slowest lookup. $\rightarrow$ Total lookup will be slow. Find this message byte n that is slowest for constant random rest of message. 
+        \item[2.]Find locally the slowest index i with same setup. 
+        \item[3.]$K[0] \bigoplus n[0] = i$ (modular keysize K).
+    \end{itemize}{}
+    \item\textbf{Countermeasures: }
+    \begin{itemize}
+        \item[-]Avoid memory access.
+        \item[-]Alternative lookup tables (different AES formulations).
+        \item[-]Data-oblivious memory access pattern.
+        \item[-]Hiding the timing.
+        \item[$\rightarrow$]Most modern CPUS have special AES hardware that does not use RAM! $\rightarrow$ not vulnerable.
+    \end{itemize}{}
+\end{itemize}{}
+
+\subsection{Power Analysis Attacks: }
+An attack that enables to retrieve a secret key by observing power traces of a device.
+
+\begin{itemize}
+    \item\textbf{Types: }
+    \begin{itemize}
+        \item\textbf{Simple Power Analysis SPA: }Observation and analysis of power consumption during a
+        single execution (trace); trace depends on the key 
+        \item\textbf{Differential Power Analysis: }Statistical analysis of multiple measurements based on the
+        similar principles as timing cryptanalysis; trace depends on the key and on the input plaintext/ciphertext.
+        \item\textbf{High Order Differential Power Analysis: }Complex statistical analysis of multiple measurements
+    \end{itemize}{}
+    \item\textbf{Devices: }Mainly used on Smartcards, RFID chips, Sensor Nodes. And the Attacker needs physical access.Needs additional equipment like Oscilloscope.
+    \item\textbf{SPA-Main Idea: }
+    \begin{itemize}
+        \item[1.]Measure power consumption of instruction sequences that depend on the key (square vs. multiply in RSA).
+        \item[2.]The key is 1 where there is a multiply after square.
+    \end{itemize}{}
+    \item\textbf{DPA-Main Idea: }Power consumption depends not only on the type of the executed instructions but also on values of operands (unlike in the simple power analysis)
+    \item\textbf{Protection: }
+    \begin{itemize}
+        \item[-]Desynchronization: Random injection of dummy instructions.
+        \item[-]Noise generator: but then correlations can still be exploited using larger nr of measurements.
+        \item[-]Software balancing: significant reduction of speed.
+        \item[-]Shamir's countermeasure: add 2 capacitors s.t. one at a time is charging an one discharging. Power consumption doesn't directly depend on calculations. 
+    \end{itemize}{}
+\end{itemize}{}
+
+\subsection{Accoustic attack on RSA: }
+\begin{itemize}
+    \item[]High frequency sounds caused by vibration of
+    electronic components (capacitors and coils) in the
+    computer’s voltage regulation circuit
+    \item[]Different secret keys cause different operations with different power levels (as seen before)
+    \item[]Voltage Regulator changes behavior to stabilize voltage
+    \item[]causes different vibrations $\rightarrow$ emitted as different sounds
+    \item[]Can’t detect individual CPU operations. But modular exponentiation takes more time $\rightarrow$ Try to find longer patterns
+\end{itemize}
+
+\subsection{TEMPEST: Transmitted Electro-Magnetic Pulse / Energy Standards & Testing}
+
+\begin{itemize}
+    \item[-]Compromising emanations may be generated by any electrical information generating or processing equipment.
+    \item[-]Can be sensed and transmitted over air, water, electrical lines,
+\end{itemize}
+
+\subsection{Tamper-Resilience}
+
+\begin{itemize}
+    \item[-]\textbf{Tamper resistance: }systems take the bank vault approach. (e.g. Smartcards)
+    \item[-]\textbf{Tamper responding: }systems use the burglar alarm approach.
+    \item[-]\textbf{Tamper evident: }systems are designed to ensure that if a break-in occurs, evidence of the break-in is left behind.
+\end{itemize}
+
+\textbf{Specialized Devices}
+\begin{itemize}
+    \item[-]Smartcards: 
+    \begin{itemize}
+        \item hold secret keys
+        \item perform crypto-operations (dedicated)
+        \item access-protection with a PIN
+        \item Limited tamper resistance
+    \end{itemize}
+    \item[-]Cryptographical Co-processors:
+    \begin{itemize}
+        \item hold secret keys
+        \item perform crypto-operations (broader set)
+        \item TPM functionality
+        \item access protected with a (master) key
+        \item Tamper resistance
+    \end{itemize}{}
+    
+\end{itemize}{}
+
+\subsubsection{Smartcards}
+
+\paragraph{Invasive Attacks}
+
+\paragraph{Semi-Invasive Attacks}
+\begin{itemize}
+    \item[-]\textbf{Glitch-Attack: }In a glitch attack, attacker deliberately generate a malfunction that
+    causes one or more flipflops to adopt the wrong state.
+    Hardware and Software countermeasures are taken.
+\end{itemize}{}
+
+\subsubsection{HSM Hardware Security Module}
+\paragraph{Typical Attacks on HSM:}
+\begin{itemize}
+    \item[-]Cryptanalysis: the attacker exploits design flaws in the crypto primitives such
+    as encryption algorithms, hash functions, and digital signature schemes (cryptanalysis techniques)
+    \item[-]Protocol analysis: flaws in the protocols in which crypto primitives are used (numerous formal analysis techniques)\\
+    API attacks (introduced by Andersson), extend protocol
+    analysis to APIs
+\end{itemize}{}
+
+\paragraph{Security API}
+\begin{itemize}
+    \item[-]the top-level software component of a
+    cryptoprocessor, which governs its interaction with the outside world.
+    \item[-]It extends a cryptographic API by enforcing policy on the interactions as well as providing cryptographic services.
+\end{itemize}{}
+
+\paragraph{API-Attack: }
+
+\paragraph{ISO-0 Attack:}
+
+\paragraph{Some Solutions: }
+\begin{itemize}
+    \item[-]Access Control
+    \item[-]Limit functionality: Enable only what an entity
+    requires is allow to access. Disable all other access to
+    data and functions.
+    \item[-]Formal analysis techniques similar to the ones use for protocols.
+\end{itemize}{}
+
+\paragraph{Doesn't matter how secure the device is physically if it leaks secrets due to API attacks}
+
+\paragraph{Chip and Pin is broken: $\rightarrow$ read paper}
+

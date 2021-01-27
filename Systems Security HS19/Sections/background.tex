@@ -1,0 +1,41 @@
+\section{Background}
+\begin{tabular}{ |c|c|c| } 
+\hline
+ & \textbf{confidentiality} & \textbf{authentication} \\
+\hline
+\multirow \textbf{Symmetric} & 1.symmetric key encryption  & 2. symmetric key authentication \\ 
+\hline
+\textbf{Asymmetric} & 3. public key encryption & 4. digital signatures \\ 
+
+\hline
+\end{tabular}
+\subsection{Symmetric Crypto for Confidentiality}\\
+
+\begin{itemize}
+    \item[-]\textbf{Stream Cipher:} processes a message bit by bit (RC4).
+    \item[-]\textbf{Block Cipher:} \tab encrypts/decrypts a message in blocks (DES, AES). A secret key indicates which mapping to use: $2^N!$ such mappings, where N is block size. \textbf{Ideal Block Cipher:} Use any of the possible mappings $\rightarrow$ keyspace would be to big instead we approximate with \textbf{Practical Block Ciphers}. Use key of K bits to specify a random subset of $2^K$ mappings.
+    \begin{itemize}
+        \item\textbf{Diffusion: }the ciphertext bits should depend on the plaintext bits in a complex way. If ptext bit i is changed, the ctext bit j should change with $p=1/2$.
+        \item\textbf{Condusion: }Each bit of c should depend on the whole key. If one bit of the key is changed the ciphertext should entirely change.
+        \item\textbf{TODO:} repeat Feistel Network and AES sl.9.
+    \end{itemize}{}
+\end{itemize}
+
+\subsection{Symmetric Crypto for Authentication}\\
+
+- \textbf{MAC (Message Authentication Code)} message and key are processed through MAC function to get MAC. Receiver recomputes MAC using the shared key and verifies that it is as expected.\\
+
+\subsection{Asymmetric Crypto for Confidentiality} \\
+
+- \textbf{Public/Private Key encryption:} Encrypt using public key decrypt using private key (RSA).
+
+\subsection{Recap of security models and proofs}\\
+
+\begin{description}
+\item[Security model and properties:]\hfill \\
+    - CPA: secure against chosen plaintext adversary.
+\item[Security Proofs:]\hfill \\
+    - Schemes proven secure using hardness assumptions (e.g. one cannot factor n).\\
+\end{description}
+
+\textbf{Padding Oracle Attack: }TODO exercise session 1

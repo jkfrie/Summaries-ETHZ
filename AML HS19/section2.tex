@@ -1,0 +1,52 @@
+\section*{Linear Regression}
+\textbf{Model of data}:
+$\mathbf{Y}=\mathbf{X}^T\beta +\epsilon \\
+\mathbf{X}\in\mathbb{R}^{(d+1)\times n}, \beta \in \mathbb{R}^{d+1}$\\
+additive Gaussian noise $\epsilon \sim \mathcal{N}(\mathbf{0},\mathbb{I}\sigma^2)$\\
+$\hat{\mathbf{Y}}=\mathbf{X}\hat{\beta}$ \quad
+$\hat{\beta} \sim \mathcal{N}(\beta, (\mathbf{X}^T\mathbf{X})^{-1}\sigma^2) $ \\
+and $p(\mathbf{Y}|\mathbf{X},\beta, \sigma^2) = \mathcal{N}(\mathbf{Y}|\mathbf{X}^T\beta, \mathbb{I}\sigma^2)$
+
+% A Regression has Optimum:\\
+% $f^*(x) = \mathbb{E}_Y[Y|X=x]$
+
+
+\subsection*{(1) Ordinary Least Squares}
+\textbf{Setting}: Minimize RSS.\\
+$\mathcal{L} = \text{RSS}(\beta)=\sum_{i=1}^n(y_i-x_i^T\beta)^2$\\
+$=(\mathbf{y}-\mathbf{X}\beta)^T(\mathbf{y}-\mathbf{X}\beta)$\\
+% $X\in\mathbb{R}^{n\times(d+1)}, y\in\mathbb{R}^n,  \beta\in\mathbb{R}^{d+1}$\\
+\textbf{Solution:} differentiate $\mathcal{L}$ w.r.t $\beta$\\
+$\hat{\beta}^\text{OLS} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^{T}\mathbf{y}$\\
+Is an orthogonal projection with lowest \\
+variance of all unbiased estimates.\\
+\textbf{Prediction:} $\hat{y}{=}\mathbf{X}\hat{\beta}{=}\mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^{T}\mathbf{y}$
+
+
+\subsection*{(2) Ridge Regression ($L^2$ penalty)}
+\textbf{Setting}: Penalize energy in $\beta$.\\
+$\mathcal{L} = (\mathbf{y}-\mathbf{X}\beta)^T(\mathbf{y}-\mathbf{X}\beta)+\lambda\beta^T\beta$\\
+\textbf{Solution:} differentiate $\mathcal{L}$ w.r.t $\beta$\\
+$\hat{\beta}^\text{ridge} = (\mathbf{X}^T\mathbf{X}+\lambda\mathbb{I})^{-1}\mathbf{X}^{T}\mathbf{y}$ \\
+\textbf{Bayesian view:} $Y|(X, \beta) \smallsim \mathcal{N}(X^T\beta, \sigma^2)$\\
+$ \beta \smallsim \mathcal{N}(0, \sigma^2/\lambda)$
+
+\subsection*{(3) Lasso ($L^1$ penalty)}
+\textbf{Setting:} Penalize full $\beta$.\\
+$\mathcal{L} = \sum_{i=1}^n(y_i-x_i^T\beta)^2+\lambda\sum_{j=1}^d|\beta_j| $\\\\
+$=(\mathbf{y}-\mathbf{X}\beta)^T(\mathbf{y}-\mathbf{X}\beta)+\lambda||\beta||_1$\\
+\textbf{Bayesian view:} $Y|(X, \beta) \smallsim \mathcal{N}(x^T\beta, \sigma^2 I)$\\
+Laplace prior: $p(\beta_i) = \frac{\lambda}{4\sigma^2} exp(-|\beta|\frac{\lambda}{2\sigma^2})$
+Lasso has no closed form.
+
+\subsection*{(4) Bayesian Linear Regression}
+\textbf{Setting:} Define a prior over $\beta$.\\
+\textbf{e.g. Ridge:} Assume $\beta$ distributed as:\\
+$p(\beta|\bm{\bm{\Lambda}}){=}\mathcal{N}(\beta|\mathbf{0},\frac{\sigma^2}{\lambda}\mathbb{I}) {\propto} \mathrm{exp}(-\frac{\lambda}{2\sigma^2}\beta^T\beta)$\\
+For $\bm{\Lambda}=\frac{\sigma^2}{\lambda}\mathbb{I}$. Linear for $\sigma=1$.
+
+Then, given observed $\mathbf{X},\mathbf{y}$, use Bayes' theorem to find the posterior\\
+$p(\beta|\mathbf{X},\mathbf{y}, \bm{\Lambda}, \sigma) = \mathcal{N}(\mu_{\beta}, \Sigma_{\beta})$\\
+$\mu_\beta = \sigma^2(\mathbf{X}^T\mathbf{X} +\sigma^2\bm{\Lambda})^{-1}\mathbf{X}^T\mathbf{y}$\\
+$\Sigma_\beta = \sigma^2(\mathbf{X}^T\mathbf{X} +\sigma^2\bm{\Lambda})^{-1}$
+
