@@ -1,0 +1,78 @@
+\section{Basics of Wireless Communication}
+
+\subsection{Basics}
+
+\begin{minipage}{\linewidth}
+    \centering      
+    \def\svgwidth{\columnwidth}
+    \input{Figures/L1_wireless_system}
+\end{minipage}
+
+\paragraph{Radio Frequency Signal (RF):}
+\begin{itemize}
+    \item Communication using EM radiation waves at frq 3kHz-300GHz.
+    \item Waves created by alternating current at desired communicatino frequency.
+    \item \textcolor{orange}{$s(t) = A cos(2\pi ft + \phi)$} 
+    \item f=frequency (Hz), A=Amplitude, t=time, $\phi$=phase, $\lambda$=wavelength=$c/f$, T=period=$1/f$.
+    \item Inverse-square law wrt the distance from the source $p$ proportional to $17d`^2$
+\end{itemize}
+
+
+\paragraph{Modulation:} Signal modulation changes a sine wave to encode information. Different modulation techniques will require different bandwidths for the same data rate.
+\begin{itemize}
+    \item Binary Phase Shift Keying (BPSK)
+    \item Amplitude Shift Keying (ASK)
+\end{itemize}
+
+\paragraph{Bandwidth:}Bandwidth can be imagined as a frequency width, sort of the fatness of the signal. What is the bandwidth of the modulated signal? It is still the same. The modulated signal takes on the bandwidth of the information signal it is carrying.
+
+\paragraph{Baseband Signal:} Actual Information message you want to transmit.s
+
+\paragraph{I/Q Signal representation:} Precisely varying the phase of a high frequency carrier sine wave in a hardware circuit according to an input message signal is difficult. Modulated information signal, that is not upmixed to carrier frequency yet (I/Q Data). A simple way of representing amplitude an phase of a signal.
+
+\paragraph{RF Upconverter:} generates the carrier signal with amplitude and phase from I/Q data and returns the RF signal.
+
+\paragraph{Frequency and Bandwidth of a Signal:} Bandwidth = measure of frequency content of the signal\\
+\begin{minipage}{\linewidth}
+    \centering      
+    \def\svgwidth{\columnwidth}
+    \input{Figures/L1_bandwidth}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+    \centering      
+    \includegraphics[width=\linewidth]{Figures/L1_frequency_transforms.PNG}
+\end{minipage}
+
+\paragraph{Antennas and Propagation:}
+\begin{itemize}
+    \item Tradeoff: Antenna Gain vs Beamwidth
+    \item Beam steering antennas: Phase of the signal to each antenna is adjusted such that all the signals will be in phase, when viewed from a certain direction. Can steer the antenna array to transmit signals or receive signals from specific direction. (example applications Mimo, selective target jamming)
+\end{itemize}
+
+\paragraph{Transmitter Architecture: }
+Key Properties are Transmitted power, carrier frequency, information bandwidth, modulation type.
+
+\paragraph{Receiver Architecture: }
+\begin{itemize}
+    \item Key Properties: Receiver sensitivity (depends on the antenna, low noise amplifier, mixer)
+    \item Software Defined Receivers SDR: low-cost, traditional components (such as mixers, amplifiers, modulators implemented in software), signal processed in PC.
+\end{itemize}
+
+\begin{minipage}{\linewidth}
+    \centering      
+    \includegraphics[width=\linewidth]{Figures/L1_channel_equation.PNG}
+\end{minipage}
+
+\begin{minipage}{\linewidth}
+    \centering      
+    \includegraphics[width=\linewidth]{Figures/L1_signal_measures.PNG}
+\end{minipage}
+
+\subsection{Security}
+Do we need Security in Wireless Networks?
+\begin{itemize}
+    \item We can't hide communication by disclosing carrier frequencies, as they can be discovered anyway by broadband receivers.
+    \item We can't reach confidentiality through low power communication. Attacker with a good antenna might still pick up signal even though he is further away.
+    \item Encryption, MAC/Signatures and new measures will help to increase security of wireless networks.
+\end{itemize}

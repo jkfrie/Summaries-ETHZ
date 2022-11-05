@@ -1,0 +1,67 @@
+\section{Wireless Security in Critical Transport Infrastructures}
+
+\paragraph{Air Traffic Control:}
+\begin{itemize}
+    \item Primary Surveillance Radar (PSR): Ground based radar. Measures time difference between the signal transmission and reflection. (independent surveillance)
+    \item Secondary Surveillance Radar (SSR): Inspired by Identify Friend or Foe (IFF) during WWII. Transponder-based interrogation. (Dependent surveillance)
+\end{itemize}
+
+\paragraph{A new Wireless Threat Model:}
+\begin{itemize}
+    \item Domains moving towards increased use of Digital Communication Networks and Automation
+    \item Widespread availability of cheap COTS software-defined radio technology and Domain knowledge
+    \item Legacy systems, which were practically secure for decades, can now be attacked by (almost) anybody.
+\end{itemize}
+
+\subsection{Real-World Privacy Issues in Aviation}
+
+\begin{itemize}
+    \item Anybody owning a software-defined radio can eavesdrop on aviation communication.
+    \item ACARS (comm. between planes and ground) uses proprietary crypto
+    \item Location of planes can be triangulated, everyone can track planes in real-time
+    \item Aircraft Identification: ICAO 24-bit address unique for every aircraft transponder. Not trivially and legally changed. Metadata also includes aircraft type and registered operator for most airframes.
+\end{itemize}
+
+\paragraph{Countermeasures:}
+\begin{itemize}
+    \item Web Tracker Blocking: Request flightradar24 etc. to filter out your plane.
+    \item Obscured Ownership: Many private aircrafts ar not in any database (military) or registered to shell or trus companies.
+    \item Switch off position broadcast
+\end{itemize}
+
+\subsection{Active Attacks on Wireless Security}
+\begin{itemize}
+    \item Jamming Attacks
+    \item Modification Attacks
+    \item Injection Attacks (e.g. Ghost Aircraft Flooding Attack)
+\end{itemize}
+
+\subsection{Examining Interactions of Safety and Security}
+Deaths on planes are increasingly being caused by malicious acts rather than technical failures.
+
+\paragraph{Safety: Dealing with failure}
+\begin{itemize}
+    \item Experience: Increasing mean time to failure of a system via root cause analysis.
+    \item Redundancy: Decreasing likelihood of failure of system as a whole.
+\end{itemize}
+
+\paragraph{Security is not the same thing as safety!}
+\begin{itemize}
+    \item Redundancy alone does not protct against determined threat actors, who can circumvent different insecure systems at the same time.
+    \item Breaches will happen in the current environment, recovery is key. Considerations of impact of breach on humans in the loop (pilots, controllers) must be taken.
+\end{itemize}
+
+\paragraph{Lessons learned from study with attacks on important plan controls:}
+Attacks impact safety, in the short and in the longer term. Concrete impact is still complex to predict but we need to look at the system as a whole!
+
+\subsection{Agile Security Countermeasures}
+There is no crypto in ATC communication now and for a long time coming.
+Instead, we can exploit physical layer data (timing, signal strength, Doppler shift et.) to improve the security of several key functions of ATC communication. It's really hard though not impossible to cheat physics.\\
+\\
+Crowdsourcing and Physics may bridge us over until A secure Aviation system can be deployed.
+We can build transparent detection and mitigation measures that raise the attack difficulty back towards nation state levels until we get built-in security.
+
+\subsection{Satellite \& Maritime Infrastructure}
+
+\paragraph{Lessons learned:}
+Its bad wherever you look. Use end-to-end encryption wherever you are. You never know where the next hop actually is

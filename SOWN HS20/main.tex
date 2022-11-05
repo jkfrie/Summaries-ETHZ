@@ -1,0 +1,56 @@
+
+\documentclass[a4paper, 8pt]{article}
+\usepackage[utf8]{inputenc}
+
+\title{Security of Wireless Networks AS20}
+\author{jasonf}
+\date{Sept 20}
+
+\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{fourier}
+\usepackage{array}
+\usepackage{svg}
+\usepackage{amsmath}
+\usepackage{xcolor}
+%\usepackage[parfill]{parskip}
+\newcommand{\myparagraph}[1]{\paragraph{#1}\mbox{}\\}
+\usepackage{adjustbox}
+
+% Multi-column layout
+\usepackage{multicol}
+
+%Figures folder
+\graphicspath{{Figures/}}
+
+% Manually set page marginshttps://de.overleaf.com/project/5e791732b70cd40001ef8300
+\usepackage[margin=0.5cm]{geometry}
+
+% Manually set margins on lists
+\usepackage{enumitem}
+% Change list margins - https://tex.stackexchange.com/questions/10684/vertical-space-in-lists
+\setlist{leftmargin=3mm, nosep}
+% or \setlist{noitemsep} to leave space around whole list
+
+\definecolor{orange}{rgb}{1,0.5,0}
+\definecolor{green}{rgb}{0.0, 0.5, 0.0}
+
+\begin{document}
+\begin{multicols*}{2}
+\maketitle
+\tableofcontents
+
+\input{Sections/L1_Wireless_Communication_Basics}
+\input{Sections/L2_Signal_Jamming}
+\input{Sections/L3_Broadcast_Jamming}
+\input{Sections/L4_Security_of_GNSS}
+\input{Sections/L5_Distance_Measurement}
+\input{Sections/L6_Wirelesssec_Transport_Infrastructure}
+\input{Sections/L7_Physical_Layer_Security}
+\input{Sections/L8_Broadcast_Authentication}
+\input{Sections/L9_Wifi_Security}
+\input{Sections/L10_Cellular_Security}
+
+\end{multicols*}
+\end{document}
