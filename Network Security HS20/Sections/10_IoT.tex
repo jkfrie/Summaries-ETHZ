@@ -1,0 +1,97 @@
+\section{Internet of Things (IoT)}
+\label{iot}
+
+\subsection{Common Ground}
+
+\begin{itemize}
+    \item Safety = protection against accidents (environment doesn't adapt to bypass safety measures).
+    \item Security = protection against targeted attacks (adaptive attacker).
+\end{itemize}
+\\
+The biggest challenge in cyber security is the misconception of risk. Humans perceive fire as risky. (Most) humans don't perceive their smart toaster as a risk, although it is. People need highly visible incidents before they act. We no longer live in a complicated system but in a complex adaptive system \textbf{CAS}:
+
+\subsection{IoT (and IIOT, ICS, SCADA, OT\&IT)}
+
+\begin{itemize}
+	\item \textbf{Information Technology (IT):} The entire spectrum of technologies for information processing, including software, hardware, communications technologies and related services. Generally does not include embedded devices.
+	\item \textbf{Operational Technology (OT):} Hardware and software that detects or causes a change through the direct monitoring and/or control of physical devices, processes and events in the enterprise.
+	\item \textbf{Industrial Control Systems (ICS):} Systems that are used to monitor and control industrial processes focused on automation, computerized monitoring and control of physical industrial processes (e.g. oil refining). Typically considered to be mission-critical applications with a high-availability requirement.
+	\item \textbf{Internet of Things (IOT):} High level concept of a global network of “smart” physical objects of various kinds (wearables, smart toaster,...)\
+	\item \textbf{Industrial Internet of Things (IIOT):} Subset of IoT specific to industry (e.g. advanced field sensors)
+	\item \textbf{Critical Infrastructure (CI):} Critical infrastructure refers to processes, facilities, technologies, networks and systems (including IIOT and ICS) that control and manage essential services. Disruptions of critical infrastructure could result in catastrophic consequences.
+\end{itemize}
+\\
+Our world is quickly changing in an irreversible move towards IT/OT convergence. Extending security models to include the OT domain introduces many challenges: conventional IT security thinking hasn't reached (I)OT industry yet, OT devices must not be assumed to be ‘just another end point’.
+
+\paragraph{Key Differences between IT and OT:}
+\textbf{OT: availability \& integrity}
+\begin{itemize}
+    \item at edge of the network
+    \item long life cycle
+    \item slow response to threats
+    \item Limited data capacity and computing power
+    \item Safety Operations is critical
+\end{itemize}
+\\
+\textbf{IT: Confidentiality} (integrity, availability):
+\begin{itemize}
+    \item at the center of the network (consumer at edge)
+    \item short life cycle
+    \item rapid response to threats
+    \item High data capacity and computing power
+    \item Few safety critical operations
+\end{itemize}
+
+\subsection{IOT	Attack Surface}
+
+\paragraph{Example 1: STRAVA - the nr. 1 app for runners and cyclists}
+Data about exercise routes shared online by soldiers can be used to pinpoint overseas facilities, and individuals. Location of military bases and individual identities exposed
+
+\paragraph{Example 2: Ingoring Known Security Best Practice}
+Hacked jeep
+
+\paragraph{Example 3: Modern Airplanes - Legacy Communications}
+
+\paragraph{Attack Surface}
+IOT connects innumerable everyday devices and systems. Previously closed systems are opened up to remote access and control. This opens up a large attack surface:
+
+\begin{itemize}
+	\item Device: insecure software, lacking update mechanism
+	\item Communication: insecure communication, weak or no cryptography, lack of authentication
+	\item Backend services: Central control, erosion of privacy, data breaches
+\end{itemize}
+
+Further, user perception of risks in cyber security is usually wrong: most users perceive their PC as exposed to malware and fear getting malware but think their smart TV, smart toaster, smart everything are great and don't pose any risks. In reality, the opposite is the case: PC security is rather sophisticated (hardened over 20 years) and we have frequent security updates (e.g.finding a vulnerability in Win10 is hard). But IoT devices ran in isolation for years and only recently became connected. They are designed for high availability and safety, \textit{not} security. Further, IoT devices rarely get security updates. However, the threat environment only gets worse over time, thus we rapidly create a huge future liability with devices lacking an automated and robust protection functionality.\\
+To make matters worse:
+
+\paragraph{Attacking Embedded Devices:}
+\begin{itemize}
+    \item OSINT: Open source intelligence, retrieve firmware from vendor website. Get devices from e-bay.
+    \item Access Debug Interfaces: Retrieve firmware, configurations, secrets.
+    \item IoT devices are mass produced, if an attack is built for one of these devices it can be replicated across all same devices.
+    \item Root Access to the device through default accounts or secrets, certificates, device fleet passwords.
+    \item We rapidly create a huge future liability with devices lacking automated and robust update functionality.
+\end{itemize}
+
+\begin{itemize}
+	\item IoT devices typically have a much longer lifetime (1-20+ years) than phones/PCs. That's a long time: vendor could go bankrupt. Solutions: Code escrow (copy source code at trusted third party), open source software
+	\item Certification vs. Security: operation critical devices (e.g. flight management system) need certification. However, digital products constantly require security updates which invalidates the certificate. Thus, we need to re-certificate after every patch. BUT: Certification timeline is outpaced by cyber security.
+	\subitem \textit{You're doomed if you patch - you're doomed if you don't.}
+\end{itemize}
+
+\subsection{Possible approaches to make things better}
+
+IOT security is part of a complex and evolving ecosystem of diverse domains. Technology based security solutions have to complement other domains to achieve the desired security level.
+
+\begin{itemize}
+	\item \textbf{enforce some minimal security standards and testing for IoT devices}
+	\item Design systems with redundancy and resiliency.
+	\item Active management of vulnerabilities (coordinated disclosure, bug bounty)
+	\item Robust and scalable process to deploy security updates timely and efficiently - on any connected device
+	\item Industry-wide systematic security and integrity testing of all critical components
+\end{itemize}
+
+
+\subsection{TRENDnet Security Breach}
+
+IP cameras by Trendnet had vulnerability that allowed attackers to view live video stream of any camera. The root directory of the camera’s server had, next to the management directory, another script called mjpg.cgi This script, accessible at \texttt{https://IP\_ADDR/anony/mjpg.cgi}, streamed the captured video in real-time without the need of any authentication. Shodan (\href{https://www.shodan.io/}{shodan.io}) was used by attackers to find IPs with that camera behind.

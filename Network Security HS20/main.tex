@@ -1,0 +1,62 @@
+
+\documentclass[a4paper, 8pt]{extarticle}
+\usepackage[utf8]{inputenc}
+
+\title{Network Security HS20}
+\author{jasonf}
+
+
+\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{fourier}
+\usepackage{array}
+\usepackage{svg}
+\usepackage{amsmath}
+\usepackage{xcolor}
+\usepackage[inlineFootnotes,citations,definitionLists,hashEnumerators,smartEllipses,pipeTables,tableCaptions,hybrid]{markdown}
+%\usepackage[parfill]{parskip}
+\newcommand{\myparagraph}[1]{\paragraph{#1}\mbox{}\\}
+\usepackage{adjustbox}
+
+% Multi-column layout
+\usepackage{multicol}
+
+%Figures folder
+\graphicspath{{Figures/}}
+
+% Manually set page marginshttps://de.overleaf.com/project/5e791732b70cd40001ef8300
+\usepackage[margin=0.5cm]{geometry}
+
+% Manually set margins on lists
+\usepackage{enumitem}
+% Change list margins - https://tex.stackexchange.com/questions/10684/vertical-space-in-lists
+\setlist{leftmargin=3mm, nosep}
+% or \setlist{noitemsep} to leave space around whole list
+
+\definecolor{orange}{rgb}{1,0.5,0}
+\definecolor{green}{rgb}{0.0, 0.5, 0.0}
+
+\begin{document}
+\begin{multicols*}{2}
+\maketitle
+\tableofcontents
+
+\markdownInput{Sections/1_Crypto_Refresher.md}
+\markdownInput{Sections/2_Networking_Refresher.md}
+\markdownInput{Sections/3_PKI.md}
+\markdownInput{Sections/4_TLS.md}
+\input{Sections/5_VPN}
+\input{Sections/6_Anonymous_Communication}
+\input{Sections/7_BGP_Security}
+\input{Sections/8_DDOS}
+\input{Sections/9_Firewalls}
+\input{Sections/10_IoT}
+\input{Sections/11_DNS_Security}
+\input{Sections/12_SCION}
+\input{Sections/13_Probabilistic_Trafic_Monitoring}
+
+\end{multicols*}
+
+\end{document}
+
